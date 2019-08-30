@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,6 +47,7 @@ namespace BeerGenius.Models
 
     public class FlavorProfile
     {
+        [Key]
         public int Id { get; set; }
         public int Color { get; set; }
         public int Aroma { get; set; }
