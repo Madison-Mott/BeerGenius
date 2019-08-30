@@ -36,6 +36,11 @@ namespace BeerGenius.Controllers
             return View();
         }
 
+        public IActionResult AboutCraftBeer()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
