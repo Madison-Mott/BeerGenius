@@ -16,12 +16,7 @@ namespace BeerGenius.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
-
-            var response = await client.GetAsync($"styles/?key=7ff275d01954f19419c312477a03e672");
-            var content = await response.Content.ReadAsAsync<StyleRequest>();
-            return View(content);
+            return View();
         }
 
         public async Task<IActionResult> Question1()
@@ -39,6 +34,16 @@ namespace BeerGenius.Controllers
         public IActionResult AboutCraftBeer()
         {
             return View();
+        }
+
+        public async Task<IActionResult> ListOfBeerStyles()
+        {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
+
+            var response = await client.GetAsync($"styles/?key=7ff275d01954f19419c312477a03e672");
+            var content = await response.Content.ReadAsAsync<StyleRequest>();
+            return View(content);
         }
 
         public IActionResult Privacy()
