@@ -4,11 +4,12 @@
 }
 
 
-<h1>Would you like a beer that is hoppy?</h1>
-<form asp-action="Question2">
+<h1>Lets be honest OK? You are just interested in drinking this for a high a don't care too much about the flavor.</h1>
+<form>
     <div class="slidecontainer">
         <input asp type="range" min="1" max="10" value="5" class="slider" id="Question1Answer">
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary" formmethod="post" asp-action="CheapStuff">True</button>
+    <button type="submit" class="btn btn-primary" formmethod="post" asp-action="Question2">False</button>
 </form>
 

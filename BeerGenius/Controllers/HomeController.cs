@@ -24,10 +24,66 @@ namespace BeerGenius.Controllers
             var buildFlavorProfile = new FlavorProfile();
             return View(buildFlavorProfile);
         }
-
+        public IActionResult CheapStuff()
+        {
+            return View();
+        }
         public async Task<IActionResult> Question2(FlavorProfile buildFlavorProfile)
         {
             var test = buildFlavorProfile;
+            return View();
+        }
+
+        public IActionResult Outside()
+        {
+            return View();
+        }
+        public IActionResult HotWeather()
+        {
+            return View();
+        }
+        public IActionResult FunFunky()
+        {
+            return View();
+        }
+        public IActionResult EasyRefreshing()
+        {
+            return View();
+        }
+        public IActionResult ComfortableWeather()
+        {
+            return View();
+        }
+        public IActionResult Exercise()
+        {
+            return View();
+        }
+        public IActionResult NoExercise()
+        {
+            return View();
+        }
+        public IActionResult YesChallenges()
+        {
+            return View();
+        }
+        public IActionResult NoChallenges()
+        {
+            return View();
+        }
+        public IActionResult HeavyMeal()
+        {
+            return View();
+        }
+        public IActionResult LightMeal()
+        {
+            return View();
+        }
+        public IActionResult Dessert()
+        {
+            return View();
+        }
+        public IActionResult Inside()
+        {
             return View();
         }
 

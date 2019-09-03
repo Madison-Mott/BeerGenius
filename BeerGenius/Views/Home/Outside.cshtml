@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewData["Title"] = "Outside";
+}
+
+<h1>How's the weather? A little hot? Or just plain comfortable?</h1>
+
+<form>
+    <button type="submit" class="btn btn-primary" formmethod="post" asp-action="HotWeather">Hot!</button>
+    <button type="submit" class="btn btn-primary" formmethod="post" asp-action="ComfortableWeather">Comfortable</button>
+</form>
