@@ -1,13 +1,23 @@
-﻿
+﻿@model FlavorProfile
+
 @{
     ViewData["Title"] = "Question1";
 }
 
 
-<h1>Would you like a beer that is hoppy?</h1>
+@*<h1>Would you like a beer that is hoppy?</h1>
 <form asp-action="Question2">
     <div class="slidecontainer">
         <input asp type="range" min="1" max="10" value="5" class="slider" id="Question1Answer">
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
+</form>*@
+
+<form asp-action="AddValue" method="post">
+    <input asp-for="Hop" type="radio" value=1 />1<br />
+    <input asp-for="Hop" type="radio" value=2 />2<br />
+    <input asp-for="Hop" type="radio" value=3 />3<br />
+    <input asp-for="Hop" type="radio" value=4 />4<br />
+    <input asp-for="Hop" type="radio" value=5 />5<br />
+    input type="submit";
 </form>

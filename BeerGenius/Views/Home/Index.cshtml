@@ -1,37 +1,13 @@
-﻿@model StyleRequest
-
+﻿
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Beer Genuis";
 }
 
+    <div class="text-center">
+        <h1>Beer Genuis</h1>
+    </div>
 
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            ABV
-        </th>
-        <th></th>
-    </tr>
+<div>
+    <p>@Html.ActionLink("Follow Your Taste Buds", "Question1", "Home")</p>
+</div>
 
-    @foreach (var item in Model.data)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.shortName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.abvMax)
-            </td>
-        </tr>
-    }
-
-</table>

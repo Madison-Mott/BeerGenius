@@ -3,14 +3,16 @@ using BeerGenius.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BeerGenius.Migrations
 {
     [DbContext(typeof(BeerGeniusDbContext))]
-    partial class BeerGeniusDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190902233801_Adding user flavor profile")]
+    partial class Addinguserflavorprofile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

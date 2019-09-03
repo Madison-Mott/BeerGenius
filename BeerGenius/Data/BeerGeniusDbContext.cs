@@ -11,6 +11,7 @@ namespace BeerGenius.Data
         { }
 
         public DbSet<FlavorProfile> FlavorProfiles { get; set; }
+        public DbSet<UserFlavorProfile> UserFlavorProfiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
