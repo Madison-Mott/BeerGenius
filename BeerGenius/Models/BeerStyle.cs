@@ -60,14 +60,15 @@ namespace BeerGenius.Models
         public int ABV { get; set; }
         public int Roasty { get; set; }
         public int Sweetness { get; set; }
-       // public int Seasonal { get; set; }
     }
 
     public class UserFlavorProfile
     {
         [Key]
+        public int UserFlavorProfileId { get; set; }
         [ForeignKey("Id")]
         public int UserId { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public int Color { get; set; }
         public int Aroma { get; set; }
         public int Crisp { get; set; }

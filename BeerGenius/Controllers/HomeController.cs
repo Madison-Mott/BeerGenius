@@ -53,7 +53,8 @@ namespace BeerGenius.Controllers
 
         public async Task<IActionResult> AddValue(FlavorProfile addToFlavorProfile)
         {
-
+            var user = User;
+            return View("Index");
         }
 
         public IActionResult Privacy()
