@@ -18,4 +18,13 @@
   <ItemGroup>
     <Folder Include="Data\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\DifferentBeers.jpg" />
+    <Content Remove="wwwroot\css\DifferentBeers.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\css\DifferentBeers.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

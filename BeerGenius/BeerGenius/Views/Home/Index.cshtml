@@ -5,8 +5,13 @@
     ViewData["Title"] = "Home Page";
 }
 
+
+<body>
+
     <div class="text-center">
-        <h1 class="display-4">Beer Genius</h1>
+
+        <div class="wordart italic-outline"><span class="text">Beer Genius</span></div>
+
         @if (@HttpContextAccessor.HttpContext.Session.GetString("User") == null)
         {
             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Registration">Register</a>
@@ -18,4 +23,7 @@
             <a class="nav-link" asp-controller="Home" asp-action="StartSurvey">Start Survey</a>
         }
     </div>
+</body>
+
+
 
