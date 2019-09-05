@@ -91,9 +91,10 @@ namespace BeerGenius.Controllers
             return RedirectToAction("Question1", "Questions", buildFlavorProfile);
         }
 
-        public async Task<IActionResult> AddValue(FlavorProfile addToFlavorProfile)
+        public IActionResult AddValue(FlavorProfile addToFlavorProfile)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
+
             buildFlavorProfile.ABV += addToFlavorProfile.ABV;
             buildFlavorProfile.Color += addToFlavorProfile.Color;
             buildFlavorProfile.Aroma += addToFlavorProfile.Aroma;
@@ -108,7 +109,31 @@ namespace BeerGenius.Controllers
             beerGeniusDbContext.SaveChanges();
             beerGeniusDbContext.Update(buildFlavorProfile);
 
-            return View("Index");
+            return RedirectToAction("GetResults", buildFlavorProfile);
+        }
+
+        public IActionResult GetResults(FlavorProfile finalFlavorProfile)
+        {
+            int finalStyleInt = 0;
+            var stylesToCheck = beerGeniusDbContext.FlavorProfiles;
+            foreach (var style in stylesToCheck)
+            {
+                if (style.Hop == finalFlavorProfile.Hop)
+                {
+                    finalStyleInt = style.Id;
+                }
+            }
+            return RedirectToAction("DisplayFinalResults", new { id = finalStyleInt });
+        }
+
+        public async Task<IActionResult> DisplayFinalResults(int id)
+        {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
+
+            var response = await client.GetAsync($"style/{id}?key=7ff275d01954f19419c312477a03e672");
+            var content = await response.Content.ReadAsAsync<IndividualStyle>();
+            return View(content);
         }
 
         public IActionResult AboutCraftBeer()

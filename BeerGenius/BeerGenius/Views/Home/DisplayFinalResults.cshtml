@@ -1,0 +1,36 @@
+﻿@model IndividualStyle
+
+@{
+    ViewData["Title"] = "DisplayFinalResults";
+}
+
+<h1>DisplayFinalResults</h1>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            ABV
+        </th>
+        <th></th>
+    </tr>
+
+    
+    <tr>
+        <td>
+            @Model.data.name
+        </td>
+        <td>
+            @Model.data.description
+        </td>
+        <td>
+            @Model.data.abvMax
+        </td>
+    </tr>
+
+</table>
