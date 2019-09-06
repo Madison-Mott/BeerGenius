@@ -81,14 +81,21 @@ namespace BeerGenius.Controllers
         public IActionResult StartSurvey()
         {
             var newFlavorProfile = new UserFlavorProfile();
-            newFlavorProfile.UserId = (int)session.GetInt32("UserId");
+            var userId = (int)session.GetInt32("UserId");
+            var user = beerGeniusDbContext.BeerGeniusUsers.Find(userId);
+
+            newFlavorProfile.UserId = userId;
+            newFlavorProfile.BeerGeniusUser = user;
+
             beerGeniusDbContext.UserFlavorProfiles.Add(newFlavorProfile);
             beerGeniusDbContext.SaveChanges();
 
-            var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Last();
-            session.SetInt32("UserFlavorProfileId", buildFlavorProfile.UserFlavorProfileId);
+            //var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Last();
+            //session.SetInt32("UserFlavorProfileId", buildFlavorProfile.UserFlavorProfileId);
 
-            return RedirectToAction("Question1", "Questions", buildFlavorProfile);
+            session.SetInt32("CurrentQuestion", 1);
+
+            return RedirectToAction("Question1", "Questions", newFlavorProfile);
         }
 
         public IActionResult AddValue(FlavorProfile addToFlavorProfile)
@@ -97,7 +104,6 @@ namespace BeerGenius.Controllers
 
             buildFlavorProfile.ABV += addToFlavorProfile.ABV;
             buildFlavorProfile.Color += addToFlavorProfile.Color;
-            buildFlavorProfile.Aroma += addToFlavorProfile.Aroma;
             buildFlavorProfile.Crisp += addToFlavorProfile.Crisp;
             buildFlavorProfile.Hop += addToFlavorProfile.Hop;
             buildFlavorProfile.Malt += addToFlavorProfile.Malt;
@@ -109,7 +115,19 @@ namespace BeerGenius.Controllers
             beerGeniusDbContext.SaveChanges();
             beerGeniusDbContext.Update(buildFlavorProfile);
 
-            return RedirectToAction("GetResults", buildFlavorProfile);
+            
+            var nextQuestion = session.GetInt32("CurrentQuestion");
+            nextQuestion += 1;
+            session.SetInt32("CurrentQuestion", (int)nextQuestion);
+
+            if (session.GetInt32("CurrentQuestion") == 10)
+            {
+                return RedirectToAction("GetResults", buildFlavorProfile);
+            }
+            else
+            {
+                return RedirectToAction($"Question{nextQuestion}", "Questions", buildFlavorProfile);
+            }
         }
 
         public IActionResult GetResults(FlavorProfile finalFlavorProfile)

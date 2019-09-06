@@ -29,7 +29,6 @@ namespace BeerGenius.Models
         public int UserId { get; set; }
         public BeerGeniusUser BeerGeniusUser { get; set; }
         public int Color { get; set; }
-        public int Aroma { get; set; }
         public int Crisp { get; set; }
         public int Hop { get; set; }
         public int Malt { get; set; }

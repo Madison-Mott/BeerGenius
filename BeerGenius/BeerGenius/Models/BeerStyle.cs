@@ -50,7 +50,6 @@ namespace BeerGenius.Models
         [Key]
         public int Id { get; set; }
         public int Color { get; set; }
-        public int Aroma { get; set; }
         public int Crisp { get; set; }
         public int Hop { get; set; }
         public int Malt { get; set; }
@@ -59,7 +58,6 @@ namespace BeerGenius.Models
         public int ABV { get; set; }
         public int Roasty { get; set; }
         public int Sweetness { get; set; }
-        // public int Seasonal { get; set; }
     }
 
 

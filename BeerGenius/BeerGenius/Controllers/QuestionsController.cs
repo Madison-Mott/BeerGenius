@@ -22,6 +22,11 @@ namespace BeerGenius.Controllers
             return View();
         }
 
+        public IActionResult Question2()
+        {
+            return View();
+        }
+
         public IActionResult CheapStuff()
         {
             return View();
