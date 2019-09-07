@@ -37,5 +37,17 @@ namespace BeerGenius.Models
         public int ABV { get; set; }
         public int Roasty { get; set; }
         public int Sweetness { get; set; }
+
+        public void AddValues(string propertyName, int value)
+        {
+            switch (propertyName)
+            {
+                case "Hop":
+                    this.Hop = value;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

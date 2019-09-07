@@ -68,6 +68,7 @@ namespace BeerGenius.Controllers
             {
                 session.SetString("User", foundUser.UserName);
                 session.SetInt32("UserId", foundUser.UserId);
+                RedirectToAction("SetSession", "Questions", foundUser);
             }
             else
             {
@@ -90,44 +91,24 @@ namespace BeerGenius.Controllers
             beerGeniusDbContext.UserFlavorProfiles.Add(newFlavorProfile);
             beerGeniusDbContext.SaveChanges();
 
-            //var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Last();
-            //session.SetInt32("UserFlavorProfileId", buildFlavorProfile.UserFlavorProfileId);
-
             session.SetInt32("CurrentQuestion", 1);
 
-            return RedirectToAction("Question1", "Questions", newFlavorProfile);
+            return RedirectToAction("Hop", "Questions", newFlavorProfile);
         }
 
-        public IActionResult AddValue(FlavorProfile addToFlavorProfile)
+        [HttpGet]
+        public IActionResult AddValue(int passQuestionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
+            var redirect = session.GetString("Redirect");
+            var property = session.GetString("Property");
 
-            buildFlavorProfile.ABV += addToFlavorProfile.ABV;
-            buildFlavorProfile.Color += addToFlavorProfile.Color;
-            buildFlavorProfile.Crisp += addToFlavorProfile.Crisp;
-            buildFlavorProfile.Hop += addToFlavorProfile.Hop;
-            buildFlavorProfile.Malt += addToFlavorProfile.Malt;
-            buildFlavorProfile.Fruity += addToFlavorProfile.Fruity;
-            buildFlavorProfile.Sour += addToFlavorProfile.Sour;
-            buildFlavorProfile.Roasty += addToFlavorProfile.Roasty;
-            buildFlavorProfile.Sweetness += addToFlavorProfile.Sweetness;
+            buildFlavorProfile.AddValues(property, passQuestionResult);
 
-            beerGeniusDbContext.SaveChanges();
             beerGeniusDbContext.Update(buildFlavorProfile);
+            beerGeniusDbContext.SaveChanges();
 
-            
-            var nextQuestion = session.GetInt32("CurrentQuestion");
-            nextQuestion += 1;
-            session.SetInt32("CurrentQuestion", (int)nextQuestion);
-
-            if (session.GetInt32("CurrentQuestion") == 10)
-            {
-                return RedirectToAction("GetResults", buildFlavorProfile);
-            }
-            else
-            {
-                return RedirectToAction($"Question{nextQuestion}", "Questions", buildFlavorProfile);
-            }
+            return RedirectToAction(redirect, "Questions");
         }
 
         public IActionResult GetResults(FlavorProfile finalFlavorProfile)
