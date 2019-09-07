@@ -61,10 +61,6 @@ namespace BeerGenius.Models
     }
 
 
-
-
-
-
     public class IndividualStyle
     {
         public string message { get; set; }

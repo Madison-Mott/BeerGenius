@@ -42,8 +42,32 @@ namespace BeerGenius.Models
         {
             switch (propertyName)
             {
+                case "Color":
+                    this.Color = value;
+                    break;
+                case "Crisp":
+                    this.Crisp = value;
+                    break;
+                case "Malt":
+                    this.Malt = value;
+                    break;
                 case "Hop":
                     this.Hop = value;
+                    break;
+                case "Fruity":
+                    this.Fruity = value;
+                    break;
+                case "Sour":
+                    this.Sour = value;
+                    break;
+                case "ABV":
+                    this.ABV = value;
+                    break;
+                case "Roasty":
+                    this.Roasty = value;
+                    break;
+                case "Sweetness":
+                    this.Sweetness = value;
                     break;
                 default:
                     break;
