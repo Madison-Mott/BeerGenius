@@ -267,7 +267,7 @@ namespace BeerGenius.Controllers
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
             if (buildFlavorProfile.Citrus == 0)
             {
-                session.SetString("Redirect", "Index");
+                session.SetString("Redirect", "GetResults");
                 session.SetString("Property", "Citrus");
 
                 return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
