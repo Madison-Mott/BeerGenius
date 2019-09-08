@@ -1,12 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Hop";
+﻿
+@{
+    ViewData["Title"] = "Malt";
 }
 
-<h1>Would you like a beer that is hoppy?</h1>
+<h1>Would you like a beer that is malty?</h1>
 
-<form asp-controller="Home" asp-action="Hop" method="post">
+<form asp-controller="Home" asp-action="Malt" method="post">
     <input type="radio" value=1 name="questionResult" />1<br />
     <input type="radio" value=2 name="questionResult" />2<br />
     <input type="radio" value=3 name="questionResult" />3<br />
     <input type="submit" />
 </form>
+
