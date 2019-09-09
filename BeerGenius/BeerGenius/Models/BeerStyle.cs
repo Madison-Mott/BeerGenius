@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,6 +50,7 @@ namespace BeerGenius.Models
     {
         [Key]
         public int Id { get; set; }
+        public int BreweryDbId { get; set; }
         public int Color { get; set; }
         public int Crisp { get; set; }
         public int Hop { get; set; }

@@ -37,8 +37,7 @@ namespace BeerGenius.Models
         public int ABV { get; set; }
         public int Roasty { get; set; }
         public int Sweetness { get; set; }
-        public int Chocolate { get; set; }
-        public int Citrus { get; set; }
+        public int MatchingFlavorProfileId { get; set; }
 
         public void AddValues(string propertyName, int value)
         {
@@ -70,12 +69,6 @@ namespace BeerGenius.Models
                     break;
                 case "Sweetness":
                     this.Sweetness = value;
-                    break;
-                case "Chocolate":
-                    this.Chocolate = value;
-                    break;
-                case "Citrus":
-                    this.Citrus = value;
                     break;
                 default:
                     break;

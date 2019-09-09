@@ -47,7 +47,7 @@ body {
     padding-top:50px;
     padding-bottom:20px;
     
-    background-image: url(DifferentBeers.jpg);
+    /*background-image: url(DifferentBeers.jpg);*/
     background-size:cover;
     background-position: center center;
     background-repeat: no-repeat;

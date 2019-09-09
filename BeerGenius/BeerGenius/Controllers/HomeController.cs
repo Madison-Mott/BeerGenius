@@ -108,22 +108,138 @@ namespace BeerGenius.Controllers
             beerGeniusDbContext.Update(buildFlavorProfile);
             beerGeniusDbContext.SaveChanges();
 
-            return RedirectToAction(redirect, "Questions");
+            if (redirect != "GetResults")
+            {
+                return RedirectToAction(redirect, "Questions");
+            }
+            else
+            {
+                return RedirectToAction(redirect, "Home");
+            }
         }
 
-        public IActionResult GetResults(FlavorProfile finalFlavorProfile)
+        public IActionResult GetResults()
         {
-            int finalStyleInt = 0;
+            var finalFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
             var stylesToCheck = beerGeniusDbContext.FlavorProfiles;
-            foreach (var style in stylesToCheck)
+            var finalFlavorProfileList = new List<int>()
             {
-                if (style.Hop == finalFlavorProfile.Hop)
+                finalFlavorProfile.Hop,
+                finalFlavorProfile.ABV,
+                finalFlavorProfile.Color,
+                finalFlavorProfile.Crisp,
+                finalFlavorProfile.Fruity,
+                finalFlavorProfile.Malt,
+                finalFlavorProfile.Roasty,
+                finalFlavorProfile.Sour,
+                finalFlavorProfile.Sweetness
+            };
+
+            var matchingFlavorProfiles = new List<int>();
+            int finalMatchedId = 0;
+          
+            for (int i = 9; i > 0; i--)
+            {
+                foreach (var style in stylesToCheck)
                 {
-                    finalStyleInt = style.Id;
+                    var matchCounter = 0;
+                    var stylesToCheckList = new List<int>()
+                    {
+                        style.Hop,
+                        style.ABV,
+                        style.Color,
+                        style.Crisp,
+                        style.Fruity,
+                        style.Malt,
+                        style.Roasty,
+                        style.Sour,
+                        style.Sweetness
+                    };
+                    for (int j = 0; j < stylesToCheckList.Count; j++)
+                    {
+                        if (stylesToCheckList[j] == finalFlavorProfileList[j])
+                        {
+                            matchCounter++;
+                        }
+                    }
+                    if (matchCounter >= i)
+                    {
+                        matchingFlavorProfiles.Add(style.BreweryDbId);
+                    }
+                }
+                if (matchingFlavorProfiles.Count > 0)
+                {
+                    var random = new Random();
+                    int finalMatchedIdIndex = random.Next(matchingFlavorProfiles.Count);
+                    finalMatchedId = matchingFlavorProfiles[finalMatchedIdIndex];
+                    finalFlavorProfile.MatchingFlavorProfileId = finalMatchedId;
+                    beerGeniusDbContext.Update(finalFlavorProfile);
+                    beerGeniusDbContext.SaveChanges();
+                    break;
                 }
             }
-            return RedirectToAction("DisplayFinalResults", new { id = finalStyleInt });
+            //foreach (var style in stylesToCheck)
+            //{
+            //    var stylesToCheckList = new List<int>()
+            //    {
+            //        style.Hop,
+            //        style.ABV,
+            //        style.Color,
+            //        style.Crisp,
+            //        style.Fruity,
+            //        style.Malt,
+            //        style.Roasty,
+            //        style.Sour,
+            //        style.Sweetness
+            //    };
+
+            //    if (stylesToCheckList.SequenceEqual(finalFlavorProfileList))
+            //    {
+            //        matchingFlavorProfiles.Add(style.Id);
+            //    }
+            //}
+
+            //if (matchingFlavorProfiles.Count == 0)
+            //{
+            //    for (int i = 9; i > 0; i--)
+            //    {
+            //        foreach (var style in stylesToCheck)
+            //        {
+            //            var matchCounter = 0;
+            //            var stylesToCheckList = new List<int>()
+            //            {
+            //                style.Hop,
+            //                style.ABV,
+            //                style.Color,
+            //                style.Crisp,
+            //                style.Fruity,
+            //                style.Malt,
+            //                style.Roasty,
+            //                style.Sour,
+            //                style.Sweetness
+            //            };
+            //            for (int j = 0; j < stylesToCheckList.Count; j++)
+            //            {
+            //                if (stylesToCheckList[j] == finalFlavorProfileList[j])
+            //                {
+            //                    matchCounter++;
+            //                }
+            //            }
+            //            if (matchCounter >= i)
+            //            {
+            //                matchingFlavorProfiles.Add(style.Id);
+            //            }
+            //        }
+            //        if (matchingFlavorProfiles.Count > 0)
+            //        {
+            //            break;
+            //        }
+            //    }
+            //}
+
+            return RedirectToAction("DisplayFinalResults", new {id = finalMatchedId });
         }
+
 
         public async Task<IActionResult> DisplayFinalResults(int id)
         {

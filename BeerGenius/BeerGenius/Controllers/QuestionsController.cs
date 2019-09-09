@@ -221,7 +221,7 @@ namespace BeerGenius.Controllers
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
             if (buildFlavorProfile.Color == 0)
             {
-                session.SetString("Redirect", "Chocolate");
+                session.SetString("Redirect", "GetResults");
                 session.SetString("Property", "Color");
 
                 return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
@@ -233,50 +233,50 @@ namespace BeerGenius.Controllers
             }
         }
 
-        public IActionResult Chocolate()
-        {
-            return View();
-        }
+        //public IActionResult Chocolate()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public IActionResult Chocolate(int questionResult)
-        {
-            var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Chocolate == 0)
-            {
-                session.SetString("Redirect", "Citrus");
-                session.SetString("Property", "Chocolate");
+        //[HttpPost]
+        //public IActionResult Chocolate(int questionResult)
+        //{
+        //    var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
+        //    if (buildFlavorProfile.Chocolate == 0)
+        //    {
+        //        session.SetString("Redirect", "Citrus");
+        //        session.SetString("Property", "Chocolate");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
+        //        return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
+        //    }
+        //    else
+        //    {
+        //        return View();
 
-            }
-        }
+        //    }
+        //}
 
-        public IActionResult Citrus()
-        {
-            return View();
-        }
+        //public IActionResult Citrus()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public IActionResult Citrus(int questionResult)
-        {
-            var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Citrus == 0)
-            {
-                session.SetString("Redirect", "GetResults");
-                session.SetString("Property", "Citrus");
+        //[HttpPost]
+        //public IActionResult Citrus(int questionResult)
+        //{
+        //    var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
+        //    if (buildFlavorProfile.Citrus == 0)
+        //    {
+        //        session.SetString("Redirect", "GetResults");
+        //        session.SetString("Property", "Citrus");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
+        //        return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
+        //    }
+        //    else
+        //    {
+        //        return View();
 
-            }
-        }
+        //    }
+        //}
     }
 }
