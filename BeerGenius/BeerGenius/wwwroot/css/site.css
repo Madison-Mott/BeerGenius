@@ -43,16 +43,14 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    color:white;
-    padding-top:50px;
-    padding-bottom:20px;
-    
-    /*background-image: url(DifferentBeers.jpg);*/
-    background-size:cover;
+    color: white;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-image: linear-gradient(#000000,transparent),url(DifferentBeers.jpg);
+    background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    margin:auto;
-    
+    margin: auto;
 }
 .footer {
   position: absolute;
