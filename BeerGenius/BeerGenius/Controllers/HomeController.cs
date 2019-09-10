@@ -80,6 +80,12 @@ namespace BeerGenius.Controllers
             return View("Index");
         }
 
+
+        public IActionResult UserProfile()
+        {
+            return View();
+        }
+
         public IActionResult StartSurvey()
         {
             var newFlavorProfile = new UserFlavorProfile();
