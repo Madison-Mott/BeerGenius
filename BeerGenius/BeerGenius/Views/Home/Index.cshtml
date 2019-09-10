@@ -19,7 +19,7 @@
         }
         else
         {
-            <h3> Welcome @HttpContextAccessor.HttpContext.Session.GetString("User")</h3>
+            <div class="wordart italic-outline"><span class="text">Welcome @HttpContextAccessor.HttpContext.Session.GetString("User")</span></div>
             <a class="nav-link" asp-controller="Home" asp-action="StartSurvey">Start Survey</a>
         }
     </div>
