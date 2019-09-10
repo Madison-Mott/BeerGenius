@@ -60,6 +60,7 @@ namespace BeerGenius.Models
         public int ABV { get; set; }
         public int Roasty { get; set; }
         public int Sweetness { get; set; }
+        public int TimesSelected { get; set; }
     }
 
 

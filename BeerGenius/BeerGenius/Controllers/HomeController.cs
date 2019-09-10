@@ -173,70 +173,15 @@ namespace BeerGenius.Controllers
                     int finalMatchedIdIndex = random.Next(matchingFlavorProfiles.Count);
                     finalMatchedId = matchingFlavorProfiles[finalMatchedIdIndex];
                     finalFlavorProfile.MatchingFlavorProfileId = finalMatchedId;
+                    var matchedStyle = beerGeniusDbContext.FlavorProfiles.Where(x => x.BreweryDbId == finalMatchedId).Last();
+                    matchedStyle.TimesSelected++;
+
                     beerGeniusDbContext.Update(finalFlavorProfile);
+                    beerGeniusDbContext.Update(matchedStyle);
                     beerGeniusDbContext.SaveChanges();
                     break;
                 }
             }
-            //foreach (var style in stylesToCheck)
-            //{
-            //    var stylesToCheckList = new List<int>()
-            //    {
-            //        style.Hop,
-            //        style.ABV,
-            //        style.Color,
-            //        style.Crisp,
-            //        style.Fruity,
-            //        style.Malt,
-            //        style.Roasty,
-            //        style.Sour,
-            //        style.Sweetness
-            //    };
-
-            //    if (stylesToCheckList.SequenceEqual(finalFlavorProfileList))
-            //    {
-            //        matchingFlavorProfiles.Add(style.Id);
-            //    }
-            //}
-
-            //if (matchingFlavorProfiles.Count == 0)
-            //{
-            //    for (int i = 9; i > 0; i--)
-            //    {
-            //        foreach (var style in stylesToCheck)
-            //        {
-            //            var matchCounter = 0;
-            //            var stylesToCheckList = new List<int>()
-            //            {
-            //                style.Hop,
-            //                style.ABV,
-            //                style.Color,
-            //                style.Crisp,
-            //                style.Fruity,
-            //                style.Malt,
-            //                style.Roasty,
-            //                style.Sour,
-            //                style.Sweetness
-            //            };
-            //            for (int j = 0; j < stylesToCheckList.Count; j++)
-            //            {
-            //                if (stylesToCheckList[j] == finalFlavorProfileList[j])
-            //                {
-            //                    matchCounter++;
-            //                }
-            //            }
-            //            if (matchCounter >= i)
-            //            {
-            //                matchingFlavorProfiles.Add(style.Id);
-            //            }
-            //        }
-            //        if (matchingFlavorProfiles.Count > 0)
-            //        {
-            //            break;
-            //        }
-            //    }
-            //}
-
             return RedirectToAction("DisplayFinalResults", new {id = finalMatchedId });
         }
 
