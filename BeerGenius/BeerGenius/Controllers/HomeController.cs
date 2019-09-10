@@ -29,6 +29,7 @@ namespace BeerGenius.Controllers
 
             var response = await client.GetAsync($"styles/?key=7ff275d01954f19419c312477a03e672");
             var content = await response.Content.ReadAsAsync<StyleRequest>();
+
             return View(content);
         }
 
