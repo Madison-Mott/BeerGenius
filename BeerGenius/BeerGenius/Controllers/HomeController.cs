@@ -81,9 +81,14 @@ namespace BeerGenius.Controllers
         }
 
 
-        public IActionResult UserProfile()
+        public async Task<IActionResult> UserProfile(int id)
         {
-            return View();
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
+
+            var response = await client.GetAsync($"style/{id}?key=7ff275d01954f19419c312477a03e672");
+            var content = await response.Content.ReadAsAsync<IndividualStyle>();
+            return View(content);
         }
 
         public IActionResult StartSurvey()
@@ -94,6 +99,7 @@ namespace BeerGenius.Controllers
 
             newFlavorProfile.UserId = userId;
             newFlavorProfile.BeerGeniusUser = user;
+            newFlavorProfile.Date = DateTime.Now;
 
             beerGeniusDbContext.UserFlavorProfiles.Add(newFlavorProfile);
             beerGeniusDbContext.SaveChanges();
