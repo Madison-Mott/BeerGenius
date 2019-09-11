@@ -38,6 +38,7 @@ namespace BeerGenius.Models
         public int Roasty { get; set; }
         public int Sweetness { get; set; }
         public int MatchingFlavorProfileId { get; set; }
+        public DateTime Date { get; set; }
 
         public void AddValues(string propertyName, int value)
         {
