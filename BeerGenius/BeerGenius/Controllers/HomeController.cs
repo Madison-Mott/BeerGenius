@@ -207,7 +207,20 @@ namespace BeerGenius.Controllers
             var content = await response.Content.ReadAsAsync<IndividualStyle>();
             return View(content);
         }
+        public async Task<IActionResult> BeerChoice(FlavorProfile flavorProfile, BeerStyle beerStyle)
+        {
+            var mostSelected = beerGeniusDbContext.FlavorProfiles.Max(x => x.TimesSelected);
+            var mostSelectedRow = beerGeniusDbContext.FlavorProfiles.Where(x => x.TimesSelected == mostSelected).First();
+            var apiId = mostSelectedRow.BreweryDbId;
 
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
+
+            var response = await client.GetAsync($"style/{apiId}?key=7ff275d01954f19419c312477a03e672");
+            var content = await response.Content.ReadAsAsync<IndividualStyle>();
+
+            return View(content);
+        }
         public IActionResult AboutCraftBeer()
         {
             return View();
