@@ -39,6 +39,7 @@ namespace BeerGenius.Models
         public int Sweetness { get; set; }
         public int MatchingFlavorProfileId { get; set; }
         public DateTime Date { get; set; }
+        public bool PerfectMatch { get; set; }
 
         public void AddValues(string propertyName, int value)
         {

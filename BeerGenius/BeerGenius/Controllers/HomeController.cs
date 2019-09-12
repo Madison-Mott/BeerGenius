@@ -188,6 +188,14 @@ namespace BeerGenius.Controllers
                     finalFlavorProfile.MatchingFlavorProfileId = finalMatchedId;
                     var matchedStyle = beerGeniusDbContext.FlavorProfiles.Where(x => x.BreweryDbId == finalMatchedId).Last();
                     matchedStyle.TimesSelected++;
+                    if (i == 9)
+                    {
+                        finalFlavorProfile.PerfectMatch = true;
+                    }
+                    else
+                    {
+                        finalFlavorProfile.PerfectMatch = false;
+                    }
 
                     beerGeniusDbContext.Update(finalFlavorProfile);
                     beerGeniusDbContext.Update(matchedStyle);
@@ -203,11 +211,18 @@ namespace BeerGenius.Controllers
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
+            var finalFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
+            var matchedFlavorProfile = beerGeniusDbContext.FlavorProfiles.Where(x => x.BreweryDbId == id).First();
 
-            var response = await client.GetAsync($"style/{id}?key=7ff275d01954f19419c312477a03e672");
-            var content = await response.Content.ReadAsAsync<IndividualStyle>();
+            var response = await client.GetAsync($"beers/?styleId={id}&key=7ff275d01954f19419c312477a03e672");
+            var content = await response.Content.ReadAsAsync<BeerRootobject>();
+
+            content.UserFlavorProfile = finalFlavorProfile;
+            content.FlavorProfile = matchedFlavorProfile;
+
             return View(content);
         }
+
         public async Task<IActionResult> BeerChoice(FlavorProfile flavorProfile, BeerStyle beerStyle)
         {
             var mostSelected = beerGeniusDbContext.FlavorProfiles.Max(x => x.TimesSelected);
@@ -222,6 +237,7 @@ namespace BeerGenius.Controllers
 
             return View(content);
         }
+
         public IActionResult AboutCraftBeer()
         {
             return View();
