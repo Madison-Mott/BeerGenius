@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "DisplayFinalResults";
+    var random = new Random();
+    var suggestedBeerInt = random.Next(Model.data.Length);
+    var suggestedBeer = Model.data[suggestedBeerInt];
 }
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -12,44 +15,70 @@
 
 <div class="wordart italic-outline"><span class="text">Your Flavor Profile</span></div>
 
-<p>The user id is: @Model.UserFlavorProfile.UserFlavorProfileId</p>
-
-<p>this is a bunch of data</p>
-
-@foreach (var item in Model.data)
+@if (Model.UserFlavorProfile.PerfectMatch == true)
 {
-    <table class="table" style="color:white;">
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                ABV
-            </th>
-            <th>
-                Test
-            </th>
-            <th></th>
-        </tr>
+    <div class="wordart italic-outline"><span class="text">We found you a perfect match!</span></div>
 
-
-        <tr>
-            <td>
-                @item.style.name
-            </td>
-            <td>
-                @item.style.description
-            </td>
-            <td>
-                @item.style.abvMax
-            </td>
-            <td>
-                @item.name
-            </td>
-        </tr>
-
-    </table>
 }
+else
+{
+    <div class="wordart italic-outline"><span class="text">Here's what we found for you!</span></div>
+    @if (Model.FlavorProfile.Hop > Model.UserFlavorProfile.Hop)
+    {
+        <p>This beer is more hoppy than you wanted</p>
+    }
+    else if (Model.FlavorProfile.Hop < Model.UserFlavorProfile.Hop)
+    {
+        <p>This beer is less hoppy than you wanted</p>
+    }
+    @if (Model.FlavorProfile.Color > Model.UserFlavorProfile.Color)
+    {
+        <p>This beer has a darker color than you wanted</p>
+    }
+    else if (Model.FlavorProfile.Color < Model.UserFlavorProfile.Color)
+    {
+        <p>This beer has a lighter color than you wanted</p>
+    }
+}
+
+<h2>You should try a @suggestedBeer.style.name!</h2>
+<h2>You should try a @suggestedBeer.nameDisplay!</h2>
+
+@if (Model.FlavorProfile.TimesSelected == 1)
+{
+    <p>You're the first user to be paired with this style</p>
+}
+else
+{
+    <p>This style has been matched with users @Model.FlavorProfile.TimesSelected time(s)</p>
+}
+
+<p>Here's some information on your style</p>
+
+<table class="table" style="color:white;">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            ABV
+        </th>
+    </tr>
+
+
+    <tr>
+        <td>
+            @suggestedBeer.name
+        </td>
+        <td>
+            @suggestedBeer.description
+        </td>
+        <td>
+            @suggestedBeer.abv
+        </td>
+    </tr>
+
+</table>

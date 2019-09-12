@@ -99,14 +99,14 @@ namespace BeerGenius.Controllers
 
             newFlavorProfile.UserId = userId;
             newFlavorProfile.BeerGeniusUser = user;
-            newFlavorProfile.Date = DateTime.Now;
+            newFlavorProfile.Date = DateTime.Now.Date;
 
             beerGeniusDbContext.UserFlavorProfiles.Add(newFlavorProfile);
             beerGeniusDbContext.SaveChanges();
 
             session.SetInt32("CurrentQuestion", 1);
 
-            return RedirectToAction("Hop", "Questions", newFlavorProfile);
+            return RedirectToAction("Hop", "Questions");
         }
 
         [HttpGet]
