@@ -13,9 +13,7 @@
 <h1>Would you like a beer that is malty?</h1>
 
 <form asp-controller="Home" asp-action="Malt" method="post">
-    <input type="radio" value=1 name="questionResult" />No<br />
-    <input type="radio" value=2 name="questionResult" />Not Sure<br />
-    <input type="radio" value=3 name="questionResult" />Yes<br />
-    <input type="submit" />
+    <button type="submit" value=1 name="questionResult">No</button>
+    <button type="submit" value=2 name="questionResult">Maybe</button>
+    <button type="submit" value=3 name="questionResult">Yes</button>
 </form>
-
