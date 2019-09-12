@@ -13,71 +13,167 @@
     <div class="w3-container w3-orange w3-round-xlarge" style="width:100%">100%</div>
 </div>
 
-<div class="wordart italic-outline"><span class="text">Your Flavor Profile</span></div>
-
-@if (Model.UserFlavorProfile.PerfectMatch == true)
-{
-    <div class="wordart italic-outline"><span class="text">We found you a perfect match!</span></div>
-
-}
-else
-{
-    <div class="wordart italic-outline"><span class="text">Here's what we found for you!</span></div>
-    @if (Model.FlavorProfile.Hop > Model.UserFlavorProfile.Hop)
-    {
-        <p>This beer is more hoppy than you wanted</p>
-    }
-    else if (Model.FlavorProfile.Hop < Model.UserFlavorProfile.Hop)
-    {
-        <p>This beer is less hoppy than you wanted</p>
-    }
-    @if (Model.FlavorProfile.Color > Model.UserFlavorProfile.Color)
-    {
-        <p>This beer has a darker color than you wanted</p>
-    }
-    else if (Model.FlavorProfile.Color < Model.UserFlavorProfile.Color)
-    {
-        <p>This beer has a lighter color than you wanted</p>
-    }
-}
-
-<h2>You should try a @suggestedBeer.style.name!</h2>
-<h2>You should try a @suggestedBeer.nameDisplay!</h2>
-
+<div class="wordart italic-outline"><span class="text">Your Suggested Style is...</span></div>
+<h1>@suggestedBeer.style.name!</h1>
 @if (Model.FlavorProfile.TimesSelected == 1)
 {
-    <p>You're the first user to be paired with this style</p>
+    <p>You're the first user to be paired with this style!</p>
 }
 else
 {
     <p>This style has been matched with users @Model.FlavorProfile.TimesSelected time(s)</p>
 }
 
+@if (Model.UserFlavorProfile.PerfectMatch == true)
+{
+    <div class="text-center">
+        <h1>We found you a perfect match!</h1>
+        <p>All of your flavor preferences match this style</p>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1>Here's an overview of your results</h1>
+        @if (Model.FlavorProfile.Hop > Model.UserFlavorProfile.Hop)
+        {
+            <p>This beer style is <b>more hoppy</b> than you wanted</p>
+        }
+        else if (Model.FlavorProfile.Hop < Model.UserFlavorProfile.Hop)
+        {
+            <p>This beer style is <b>less hoppy</b> than you wanted</p>
+        }
+        else
+        {
+            <p>This beer style <b>matches</b> your preference for <b>hoppiness</b></p>
+        }
+        @if (Model.FlavorProfile.Color > Model.UserFlavorProfile.Color)
+        {
+            <p>This beer style has a <b>darker color</b> than you wanted</p>
+        }
+        else if (Model.FlavorProfile.Color < Model.UserFlavorProfile.Color)
+        {
+            <p>This beer style has a <b>lighter color</b> than you wanted</p>
+        }
+        else
+        {
+            <p>This beer style <b>matches</b> your preference for <b>color</b></p>
+        }
+        @if (Model.FlavorProfile.ABV > Model.UserFlavorProfile.ABV)
+        {
+            <p>This beer style has a <b>higher ABV</b> than you wanted</p>
+        }
+        else if (Model.FlavorProfile.ABV < Model.UserFlavorProfile.ABV)
+        {
+            <p>This beer style has a <b>lower ABV</b> than you wanted</p>
+        }
+        else
+        {
+            <p>This beer style <b>matches</b> your preference for <b>ABV</b></p>
+        }
+        @if (Model.FlavorProfile.Crisp > Model.UserFlavorProfile.Crisp)
+        {
+            <p>This beer style has a <b>more crisp finish</b> than you wanted</p>
+        }
+        else if (Model.FlavorProfile.Crisp < Model.UserFlavorProfile.Crisp)
+        {
+            <p>This beer style has a <b>less crisp finish</b> than you wanted</p>
+        }
+        else
+        {
+            <p>This beer style <b>matches</b> your preference for <b>a crisp, refreshing finish</b></p>
+        }
+        @if (Model.FlavorProfile.Fruity > Model.UserFlavorProfile.Fruity)
+        {
+            <p>This beer style is <b>more fruity</b> than you wanted</p>
+        }
+        else if (Model.FlavorProfile.Fruity < Model.UserFlavorProfile.Fruity)
+        {
+            <p>This beer style is <b>less fruity</b> than you wanted</p>
+        }
+        else
+        {
+            <p>This beer style <b>matches</b> your preference for <b>fruitiness</b></p>
+        }
+        @if (Model.FlavorProfile.Malt > Model.UserFlavorProfile.Malt)
+        {
+            <p>This beer style is <b>more malty</b> than you wanted</p>
+        }
+        else if (Model.FlavorProfile.Malt < Model.UserFlavorProfile.Malt)
+        {
+            <p>This beer style is <b>less malty</b> than you wanted</p>
+        }
+        else
+        {
+            <p>This beer style <b>matches</b> your preference for <b>maltiness</b></p>
+        }
+        @if (Model.FlavorProfile.Roasty > Model.UserFlavorProfile.Roasty)
+        {
+            <p>This beer style has a <b>more roasty flavor</b> than you wanted</p>
+        }
+        else if (Model.FlavorProfile.Roasty < Model.UserFlavorProfile.Roasty)
+        {
+            <p>This beer style has a <b>less roasty flavor</b> than you wanted</p>
+        }
+        else
+        {
+            <p>This beer style <b>matches</b> your preference for <b>roasty, robust flavor</b></p>
+        }
+        @if (Model.FlavorProfile.Sour > Model.UserFlavorProfile.Sour)
+        {
+            <p>This beer style is <b>more sour</b> than you wanted</p>
+        }
+        else if (Model.FlavorProfile.Sour < Model.UserFlavorProfile.Sour)
+        {
+            <p>This beer style is <b>less sour</b> than you wanted</p>
+        }
+        else
+        {
+            <p>This beer style <b>matches</b> your preference for <b>souriness</b></p>
+        }
+        @if (Model.FlavorProfile.Sweetness > Model.UserFlavorProfile.Sweetness)
+        {
+            <p>This beer style is <b>more sweet</b> than you wanted</p>
+        }
+        else if (Model.FlavorProfile.Sweetness < Model.UserFlavorProfile.Sweetness)
+        {
+            <p>This beer style is <b>less sweet</b> than you wanted</p>
+        }
+        else
+        {
+            <p>This beer style <b>matches</b> your preference for <b>sweetness</b></p>
+        }
+    </div>
+}
+
+<h2>a beer that matches this style is @suggestedBeer.nameDisplay!</h2>
+
 <p>Here's some information on your style</p>
 
 <table class="table" style="color:white;">
     <tr>
         <th>
-            Name
-        </th>
-        <th>
             Description
         </th>
         <th>
-            ABV
+            ABV Min
         </th>
+        <th>
+            ABV Max
+        </th>
+        <th></th>
     </tr>
 
 
     <tr>
         <td>
-            @suggestedBeer.name
+            @suggestedBeer.style.description
         </td>
         <td>
-            @suggestedBeer.description
+            @suggestedBeer.style.abvMax
         </td>
         <td>
-            @suggestedBeer.abv
+            @suggestedBeer.style.abvMin
         </td>
     </tr>
 
