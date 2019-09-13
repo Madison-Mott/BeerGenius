@@ -21,17 +21,22 @@ namespace BeerGenius.Controllers
             beerGeniusDbContext = _beerGeniusDbContext;
             session = httpContextAccessor.HttpContext.Session;
         }
-
         public async Task<IActionResult> Index()
         {
+            var mostSelected = beerGeniusDbContext.FlavorProfiles.Max(x => x.TimesSelected);
+            var mostSelectedRow = beerGeniusDbContext.FlavorProfiles.Where(x => x.TimesSelected == mostSelected).First();
+            var todaysSelections = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.Date.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy"));
+            var mostSelectedToday = todaysSelections.GroupBy(x => x.MatchingFlavorProfileId).OrderByDescending(y => y.Count()).First();
+
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
 
-            var response = await client.GetAsync($"styles/?key=7ff275d01954f19419c312477a03e672");
-            var content = await response.Content.ReadAsAsync<StyleRequest>();
+            var popularResponse = await client.GetAsync($"style/{mostSelectedToday.Key}?key=7ff275d01954f19419c312477a03e672");
+            var popularContent = await popularResponse.Content.ReadAsAsync<IndividualStyle>();
 
-            return View(content);
+            return View(popularContent);
         }
+
 
         public IActionResult Registration()
         {
@@ -77,7 +82,7 @@ namespace BeerGenius.Controllers
                 return View();
             }
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
 
@@ -223,7 +228,7 @@ namespace BeerGenius.Controllers
             return View(content);
         }
 
-        public async Task<IActionResult> BeerChoice(FlavorProfile flavorProfile, BeerStyle beerStyle)
+        public async Task<IActionResult> BeerChoice()
         {
             var mostSelected = beerGeniusDbContext.FlavorProfiles.Max(x => x.TimesSelected);
             var mostSelectedRow = beerGeniusDbContext.FlavorProfiles.Where(x => x.TimesSelected == mostSelected).First();
@@ -235,8 +240,10 @@ namespace BeerGenius.Controllers
             var response = await client.GetAsync($"style/{apiId}?key=7ff275d01954f19419c312477a03e672");
             var content = await response.Content.ReadAsAsync<IndividualStyle>();
 
+            ViewData["MostPopular"] = mostSelected;
             return View(content);
         }
+
 
         public IActionResult AboutCraftBeer()
         {
