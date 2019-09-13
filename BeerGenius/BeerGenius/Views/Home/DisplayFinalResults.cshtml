@@ -146,10 +146,6 @@ else
     </div>
 }
 
-<h2>a beer that matches this style is @suggestedBeer.nameDisplay!</h2>
-
-<p>Here's some information on your style</p>
-
 <table class="table" style="color:white;">
     <tr>
         <th>
@@ -170,11 +166,15 @@ else
             @suggestedBeer.style.description
         </td>
         <td>
-            @suggestedBeer.style.abvMax
+            @suggestedBeer.style.abvMin
         </td>
         <td>
-            @suggestedBeer.style.abvMin
+            @suggestedBeer.style.abvMax
         </td>
     </tr>
 
 </table>
+
+<h2>a beer that matches this style is @suggestedBeer.nameDisplay!</h2>
+
+<p>Here's some information on your style</p>
