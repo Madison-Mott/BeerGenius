@@ -22,6 +22,17 @@ namespace BeerGenius.Models
         public string Password { get; set; }
     }
 
+    public class FavoriteBeers
+    { 
+        [Key]
+        public int BeerId { get; set; }
+        public int UserIdForeignKey { get; set; }
+
+        [ForeignKey("BeerGeniusUserForeignKey")]
+        public BeerGeniusUser BeerGeniusUser { get; set; }
+
+    }
+
     public class UserFlavorProfile
     {
         [Key]

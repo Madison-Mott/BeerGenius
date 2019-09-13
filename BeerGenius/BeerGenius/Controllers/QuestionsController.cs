@@ -45,7 +45,6 @@ namespace BeerGenius.Controllers
             else
             {
                 return View();
-
             }
         }
 
