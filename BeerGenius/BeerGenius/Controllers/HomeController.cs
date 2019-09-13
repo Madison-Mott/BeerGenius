@@ -23,6 +23,13 @@ namespace BeerGenius.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            var deleteThisShit = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.MatchingFlavorProfileId == 0);
+            foreach (var item in deleteThisShit)
+            {
+                beerGeniusDbContext.Remove(item);
+            }
+            beerGeniusDbContext.SaveChanges();
+
             var mostSelected = beerGeniusDbContext.FlavorProfiles.Max(x => x.TimesSelected);
             var mostSelectedRow = beerGeniusDbContext.FlavorProfiles.Where(x => x.TimesSelected == mostSelected).First();
             var todaysSelections = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.Date.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy"));
