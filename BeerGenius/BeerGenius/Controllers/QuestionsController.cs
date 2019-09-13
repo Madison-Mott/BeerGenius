@@ -35,17 +35,11 @@ namespace BeerGenius.Controllers
         public IActionResult Hop(int questionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Hop == 0)
-            {
-                session.SetString("Redirect", "Crisp");
-                session.SetString("Property", "Hop");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
-            }
+            session.SetString("Redirect", "Crisp");
+            session.SetString("Property", "Hop");
+
+            return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
         }
 
         public IActionResult Crisp()
@@ -57,18 +51,11 @@ namespace BeerGenius.Controllers
         public IActionResult Crisp(int questionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Crisp == 0)
-            {
-                session.SetString("Redirect", "Malt");
-                session.SetString("Property", "Crisp");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
+            session.SetString("Redirect", "Malt");
+            session.SetString("Property", "Crisp");
 
-            }
+            return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
         }
 
         public IActionResult Malt()
@@ -80,18 +67,11 @@ namespace BeerGenius.Controllers
         public IActionResult Malt(int questionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Malt == 0)
-            {
-                session.SetString("Redirect", "Fruity");
-                session.SetString("Property", "Malt");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
+            session.SetString("Redirect", "Fruity");
+            session.SetString("Property", "Malt");
 
-            }
+            return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
         }
 
         public IActionResult Fruity()
@@ -103,18 +83,11 @@ namespace BeerGenius.Controllers
         public IActionResult Fruity(int questionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Fruity == 0)
-            {
-                session.SetString("Redirect", "Sour");
-                session.SetString("Property", "Fruity");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
+            session.SetString("Redirect", "Sour");
+            session.SetString("Property", "Fruity");
 
-            }
+            return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
         }
 
         public IActionResult Sour()
@@ -126,18 +99,11 @@ namespace BeerGenius.Controllers
         public IActionResult Sour(int questionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Sour == 0)
-            {
-                session.SetString("Redirect", "ABV");
-                session.SetString("Property", "Sour");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
+            session.SetString("Redirect", "ABV");
+            session.SetString("Property", "Sour");
 
-            }
+            return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
         }
 
         public IActionResult ABV()
@@ -149,18 +115,11 @@ namespace BeerGenius.Controllers
         public IActionResult ABV(int questionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.ABV == 0)
-            {
-                session.SetString("Redirect", "Roasty");
-                session.SetString("Property", "ABV");
+                       
+            session.SetString("Redirect", "Roasty");
+            session.SetString("Property", "ABV");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
-
-            }
+            return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
         }
 
         public IActionResult Roasty()
@@ -172,18 +131,11 @@ namespace BeerGenius.Controllers
         public IActionResult Roasty(int questionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Roasty == 0)
-            {
-                session.SetString("Redirect", "Sweetness");
-                session.SetString("Property", "Roasty");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
+            session.SetString("Redirect", "Sweetness");
+            session.SetString("Property", "Roasty");
 
-            }
+            return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
         }
 
         public IActionResult Sweetness()
@@ -195,18 +147,11 @@ namespace BeerGenius.Controllers
         public IActionResult Sweetness(int questionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Sweetness == 0)
-            {
-                session.SetString("Redirect", "Color");
-                session.SetString("Property", "Sweetness");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
+            session.SetString("Redirect", "Color");
+            session.SetString("Property", "Sweetness");
 
-            }
+            return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
         }
 
         public IActionResult Color()
@@ -218,19 +163,11 @@ namespace BeerGenius.Controllers
         public IActionResult Color(int questionResult)
         {
             var buildFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
-            if (buildFlavorProfile.Color == 0)
-            {
-                session.SetString("Redirect", "GetResults");
-                session.SetString("Property", "Color");
 
-                return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
-            }
-            else
-            {
-                return View();
+            session.SetString("Redirect", "GetResults");
+            session.SetString("Property", "Color");
 
-            }
+            return RedirectToAction("AddValue", "Home", new { passQuestionResult = questionResult });
         }
-
     }
 }

@@ -1,13 +1,25 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model  IndividualStyle
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-
 <body>
-
+    @if (Model.data == null)
+    {
+        <p>
+            Nobody has taken the test today!
+        </p>
+    }
+    else
+	{
+	        <p>
+                The most popular flavor today is 
+                @Model.data.name
+            </p>
+	}
     <div class="text-center">
 
         <div class="wordart italic-outline"><span class="text">Beer Genius</span></div>
