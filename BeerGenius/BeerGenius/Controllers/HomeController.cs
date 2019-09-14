@@ -230,6 +230,9 @@ namespace BeerGenius.Controllers
             var response = await client.GetAsync($"beers/?styleId={id}&key=7ff275d01954f19419c312477a03e672");
             var content = await response.Content.ReadAsAsync<BeerRootobject>();
 
+
+            // make a catch that checks if searhcing by beer comes up null
+            // if so, redirect to a single style page
             content.UserFlavorProfile = finalFlavorProfile;
             content.FlavorProfile = matchedFlavorProfile;
 
