@@ -17,14 +17,40 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Views\Home\Icons\" />
+    <Folder Include="wwwroot\assets\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\Images\DifferentBeers.jpg" />
     <Content Remove="wwwroot\css\DifferentBeers.jpg" />
+    <Content Remove="wwwroot\assets\abv.png" />
+    <Content Remove="wwwroot\assets\color-beer.png" />
+    <Content Remove="wwwroot\assets\crisp.png" />
+    <Content Remove="wwwroot\assets\dark-beer.png" />
+    <Content Remove="wwwroot\assets\fruits.png" />
+    <Content Remove="wwwroot\assets\hop-icon.png" />
+    <Content Remove="wwwroot\assets\light-beer.png" />
+    <Content Remove="wwwroot\assets\malt.png" />
+    <Content Remove="wwwroot\assets\roast.png" />
+    <Content Remove="wwwroot\assets\sour.png" />
+    <Content Remove="wwwroot\assets\sweet.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\css\DifferentBeers.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\assets\abv.png" />
+    <None Include="wwwroot\assets\color-beer.png" />
+    <None Include="wwwroot\assets\crisp.png" />
+    <None Include="wwwroot\assets\dark-beer.png" />
+    <None Include="wwwroot\assets\fruits.png" />
+    <None Include="wwwroot\assets\hop-icon.png" />
+    <None Include="wwwroot\assets\light-beer.png" />
+    <None Include="wwwroot\assets\malt.png" />
+    <None Include="wwwroot\assets\roast.png" />
+    <None Include="wwwroot\assets\sour.png" />
+    <None Include="wwwroot\assets\sweet.png" />
   </ItemGroup>
 </Project>
