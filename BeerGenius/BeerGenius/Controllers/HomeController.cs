@@ -34,12 +34,18 @@ namespace BeerGenius.Controllers
             var mostSelected = beerGeniusDbContext.FlavorProfiles.Max(x => x.TimesSelected);
             var mostSelectedRow = beerGeniusDbContext.FlavorProfiles.Where(x => x.TimesSelected == mostSelected).First();
             var todaysSelections = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.Date.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy"));
-            var mostSelectedToday = todaysSelections.GroupBy(x => x.MatchingFlavorProfileId).OrderByDescending(y => y.Count()).First();
+            int mostSelectedToday = 0;
+
+            if (todaysSelections.Any())
+            {
+                var mostSelectedTodayQuery = todaysSelections.GroupBy(x => x.MatchingFlavorProfileId).OrderByDescending(y => y.Count()).First();
+                mostSelectedToday = mostSelectedTodayQuery.Key;
+            }
 
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
 
-            var popularResponse = await client.GetAsync($"style/{mostSelectedToday.Key}?key=7ff275d01954f19419c312477a03e672");
+            var popularResponse = await client.GetAsync($"style/{mostSelectedToday}?key=7ff275d01954f19419c312477a03e672");
             var popularContent = await popularResponse.Content.ReadAsAsync<IndividualStyle>();
 
             return View(popularContent);

@@ -10,12 +10,12 @@
     <div class="w3-container w3-orange w3-round-xlarge" style="width:60%">60%</div>
 </div>
 
-<h1>Would you like a beer that has a high ABV?</h1>
+<h1>Would you like a beer that has a low or high ABV?</h1>
 
 <form asp-controller="Home" asp-action="ABV" method="post">
-    <button type="submit" value=1 name="questionResult">No</button>
-    <button type="submit" value=2 name="questionResult">Maybe</button>
-    <button type="submit" value=3 name="questionResult">Yes</button>
+    <button type="submit" value=1 name="questionResult">Low: Less than 5%</button>
+    <button type="submit" value=2 name="questionResult">In between: Between 5% and 8%</button>
+    <button type="submit" value=3 name="questionResult">High: More than 8%</button>
 </form>
 
 
