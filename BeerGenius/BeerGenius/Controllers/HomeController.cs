@@ -224,19 +224,27 @@ namespace BeerGenius.Controllers
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
+
             var finalFlavorProfile = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == (int)session.GetInt32("UserId")).Last();
             var matchedFlavorProfile = beerGeniusDbContext.FlavorProfiles.Where(x => x.BreweryDbId == id).First();
 
             var response = await client.GetAsync($"beers/?styleId={id}&key=7ff275d01954f19419c312477a03e672");
             var content = await response.Content.ReadAsAsync<BeerRootobject>();
 
-
-            // make a catch that checks if searhcing by beer comes up null
-            // if so, redirect to a single style page
-            content.UserFlavorProfile = finalFlavorProfile;
-            content.FlavorProfile = matchedFlavorProfile;
-
-            return View(content);
+            if (content.data != null)
+            {
+                content.UserFlavorProfile = finalFlavorProfile;
+                content.FlavorProfile = matchedFlavorProfile;
+                return View(content);
+            }
+            else
+            {
+                var noBeerResponse = await client.GetAsync($"style/{id}?key=7ff275d01954f19419c312477a03e672");
+                var noBeerContent = await noBeerResponse.Content.ReadAsAsync<IndividualStyle>();
+                noBeerContent.UserFlavorProfile = finalFlavorProfile;
+                noBeerContent.FlavorProfile = matchedFlavorProfile;
+                return View("DisplayFinalResultsWithoutBeerSuggestion", noBeerContent);
+            }
         }
 
         public async Task<IActionResult> BeerChoice()

@@ -1,0 +1,305 @@
+﻿@model IndividualStyle
+
+@{
+    ViewData["Title"] = "DisplayFinalResults";
+    var suggestedStyle = Model.data;
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<div class="w3-light-grey w3-round-xlarge">
+    <div class="w3-container w3-orange w3-round-xlarge" style="width:100%">100%</div>
+</div>
+
+<div style="text-align: center;">
+    <div class="wordart italic-outline"><span class="text">Your Suggested Style is...</span></div>
+    <h1 class="neon"><span class="text">@suggestedStyle.name!</span></h1>
+
+    @if (Model.FlavorProfile.TimesSelected == 1)
+    {
+        <h4>You're the first user to be paired with this style!</h4>
+    }
+    else
+    {
+        <h4>This style has been matched with users @Model.FlavorProfile.TimesSelected time(s)</h4>
+    }
+</div>
+
+@if (Model.UserFlavorProfile.PerfectMatch == true)
+{
+    <div class="text-center">
+        <h1>We found you a perfect match!</h1>
+        <h4>All of your flavor preferences match this style</h4>
+    </div>
+}
+else
+{
+    <h2 style="text-align: center;">Here's an overview of your results</h2>
+}
+<style>
+
+    :root {
+        --brand-color-1: rgba( 87, 38, 15, 0.5 );
+        --brand-color-2: rgba( 255, 191, 0, 0.5 );
+        --brand-color-3: rgba( 212, 88, 72, 0.5 )
+    }
+
+    .beer-match {
+        width: 200px;
+        height: 200px;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        margin-top: 15px;
+        text-align: center;
+        box-shadow: 2px 2px 15px rgba( 0, 0, 0, 0.3 );
+    }
+
+        .beer-match > img {
+            max-width: 35px;
+            max-height: 35px;
+        }
+
+    #hop {
+        background-color: var(--brand-color-2);
+    }
+
+    #color {
+        background-color: var(--brand-color-1);
+    }
+
+    #abv {
+        background-color: var(--brand-color-3);
+    }
+
+    #crisp {
+        background-color: var(--brand-color-2);
+    }
+
+    #fruit {
+        background-color: var(--brand-color-1);
+    }
+
+    #malt {
+        background-color: var(--brand-color-3);
+    }
+
+    #roast {
+        background-color: var(--brand-color-2);
+    }
+
+    #sour {
+        background-color: var(--brand-color-1);
+    }
+
+    #sweet {
+        background-color: var(--brand-color-3);
+    }
+</style>
+
+<h2 style="text-align: center;">Here's an overview of your results</h2>
+
+<div style="display: flex; flex-flow: row wrap; justify-content: space-around;">
+
+    <div id="hop"
+            class="beer-match">
+
+        <img src="/assets/hop-icon.png" />
+
+        @if (Model.FlavorProfile.Hop > Model.UserFlavorProfile.Hop)
+        {
+            <h4>This beer style is <strong>more hoppy</strong> than you wanted</h4>
+        }
+        else if (Model.FlavorProfile.Hop < Model.UserFlavorProfile.Hop)
+        {
+            <h4>This beer style is <strong>less hoppy</strong> than you wanted</h4>
+        }
+        else
+        {
+            <h4>This beer style <strong>matches</strong> your preference for <strong>hoppiness</strong></h4>
+        }
+    </div>
+
+    <div id="color"
+            class="beer-match">
+
+        @if (Model.FlavorProfile.Color == 1)
+        {
+            <img src="/assets/light-beer.png" />
+        }
+        else if (Model.FlavorProfile.Color == 2)
+        {
+            <img src="/assets/color-beer.png" />
+        }
+        else
+        {
+            <img src="/assets/dark-beer.png" />
+        }
+
+        @if (Model.FlavorProfile.Color > Model.UserFlavorProfile.Color)
+        {
+            <h4>This beer style has a <strong>darker color</strong> than you wanted</h4>
+        }
+        else if (Model.FlavorProfile.Color < Model.UserFlavorProfile.Color)
+        {
+            <h4>This beer style has a <strong>lighter color</strong> than you wanted</h4>
+        }
+        else
+        {
+            <h4>This beer style <strong>matches</strong> your preference for <strong>color</strong></h4>
+        }
+
+
+    </div>
+    <div id="abv"
+            class="beer-match">
+
+        <img src="/assets/abv.png" />
+
+
+        @if (Model.FlavorProfile.ABV > Model.UserFlavorProfile.ABV)
+        {
+            <h4>This beer style has a <strong>higher ABV</strong> than you wanted</h4>
+        }
+        else if (Model.FlavorProfile.ABV < Model.UserFlavorProfile.ABV)
+        {
+            <h4>This beer style has a <strong>lower ABV</strong> than you wanted</h4>
+        }
+        else
+        {
+            <h4>This beer style <strong>matches</strong> your preference for <strong>ABV</strong></h4>
+        }
+
+    </div>
+
+    <div id="crisp"
+            class="beer-match">
+
+        <img src="/assets/crisp.png" />
+
+        @if (Model.FlavorProfile.Crisp > Model.UserFlavorProfile.Crisp)
+        {
+            <h4>This beer style has a <strong>more crisp finish</strong> than you wanted</h4>
+        }
+        else if (Model.FlavorProfile.Crisp < Model.UserFlavorProfile.Crisp)
+        {
+            <h4>This beer style has a <strong>less crisp finish</strong> than you wanted</h4>
+        }
+        else
+        {
+            <h4>This beer style <strong>matches</strong> your preference for <strong>a crisp, refreshing finish</strong></h4>
+        }
+
+    </div>
+    <div id="fruit"
+            class="beer-match">
+
+        <img src="/assets/fruits.png" />
+        @if (Model.FlavorProfile.Fruity > Model.UserFlavorProfile.Fruity)
+        {
+            <h4>This beer style is <strong>more fruity</strong> than you wanted</h4>
+        }
+        else if (Model.FlavorProfile.Fruity < Model.UserFlavorProfile.Fruity)
+        {
+            <h4>This beer style is <strong>less fruity</strong> than you wanted</h4>
+        }
+        else
+        {
+            <h4>This beer style <strong>matches</strong> your preference for <strong>fruitiness</strong></h4>
+        }
+
+    </div>
+
+    <div id="malt"
+            class="beer-match">
+
+        <img src="/assets/malt.png" />
+        @if (Model.FlavorProfile.Malt > Model.UserFlavorProfile.Malt)
+        {
+            <h4>This beer style is <strong>more malty</strong> than you wanted</h4>
+        }
+        else if (Model.FlavorProfile.Malt < Model.UserFlavorProfile.Malt)
+        {
+            <h4>This beer style is <strong>less malty</strong> than you wanted</h4>
+        }
+        else
+        {
+            <h4>This beer style <strong>matches</strong> your preference for <strong>maltiness</strong></h4>
+        }
+
+    </div>
+
+
+    <div id="roast"
+            class="beer-match">
+
+        <img src="/assets/roast.png" />
+        @if (Model.FlavorProfile.Roasty > Model.UserFlavorProfile.Roasty)
+        {
+            <h4>This beer style has a <strong>more roasty flavor</strong> than you wanted</h4>
+        }
+        else if (Model.FlavorProfile.Roasty < Model.UserFlavorProfile.Roasty)
+        {
+            <h4>This beer style has a <strong>less roasty flavor</strong> than you wanted</h4>
+        }
+        else
+        {
+            <h4>This beer style <strong>matches</strong> your preference for <strong>roasty, robust flavor</strong></h4>
+        }
+
+    </div>
+
+    <div id="sour"
+            class="beer-match">
+
+        <img src="/assets/sour.png" />
+        @if (Model.FlavorProfile.Sour > Model.UserFlavorProfile.Sour)
+        {
+            <h4>This beer style is <strong>more sour</strong> than you wanted</h4>
+        }
+        else if (Model.FlavorProfile.Sour < Model.UserFlavorProfile.Sour)
+        {
+            <h4>This beer style is <strong>less sour</strong> than you wanted</h4>
+        }
+        else
+        {
+            <h4>This beer style <strong>matches</strong> your preference for <strong>souriness</strong></h4>
+        }
+
+    </div>
+
+
+    <div id="sweet"
+            class="beer-match">
+
+        <img src="/assets/sweet.png" />
+        @if (Model.FlavorProfile.Sweetness > Model.UserFlavorProfile.Sweetness)
+        {
+            <h4>This beer style is <strong>more sweet</strong> than you wanted</h4>
+        }
+        else if (Model.FlavorProfile.Sweetness < Model.UserFlavorProfile.Sweetness)
+        {
+            <h4>This beer style is <strong>less sweet</strong> than you wanted</h4>
+        }
+        else
+        {
+            <h4>This beer style <strong>matches</strong> your preference for <strong>sweetness</strong></h4>
+        }
+    </div>
+
+
+</div>
+
+<div style="display: flex; flex-flow: column nowrap;
+    background-color: rgba( 250, 250, 250, 0.7 ); box-shadow: 2px 2px 10px rgba( 0, 0, 0, 0.3 ); border-radius: 3px;
+    margin: 25px 0px; padding: 20px; color: #222222;">
+
+    <section>
+        <p>
+            @suggestedStyle.description
+        </p>
+    </section>
+</div>

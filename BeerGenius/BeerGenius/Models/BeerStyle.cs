@@ -70,6 +70,7 @@ namespace BeerGenius.Models
         public IndividualData data { get; set; }
         public string status { get; set; }
         public UserFlavorProfile UserFlavorProfile { get; set; }
+        public FlavorProfile FlavorProfile { get; set; }
     }
 
     public class IndividualData
