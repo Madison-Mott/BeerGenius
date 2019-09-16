@@ -176,6 +176,17 @@ namespace BeerGenius.Controllers
                 });
             }
 
+            foreach (var item in profileData.CurrentUserDataOverTime)
+            {
+                profileData.UserAbvAverage += item["abv"];
+            }
+            foreach (var item in profileData.AllUserDataOverTime)
+            {
+                profileData.AllAbvAverage += item["abv"];
+            }
+            profileData.UserAbvAverage = profileData.UserAbvAverage / profileData.CurrentUserDataOverTime.Count();
+            profileData.AllAbvAverage = profileData.AllAbvAverage / profileData.AllUserDataOverTime.Count();
+
             return View(profileData);
         }
 

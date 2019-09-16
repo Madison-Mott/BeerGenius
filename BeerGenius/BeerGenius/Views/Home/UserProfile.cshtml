@@ -28,12 +28,27 @@ else
 
 <h2>Average ABV Over Time</h2>
 <div>
-    <font color="rgb(220,220,220)">Your Averages</font>
+    <p style="color: rgb(220,220,220)">Your Averages</p>
+    <p style="color: rgb(151,187,205)">Everyone's Averages</p>
 </div>
-<div>
-    <font color="rgb(151,187,205)">Everyone's Averages</font>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <canvas id="abvChart" width="600" height="300"></canvas>
+        </div>
+        <div class="col">
+            @if (Model.AllAbvAverage > Model.UserAbvAverage)
+            {
+                <h2>You tend to choose beers with a lower ABV than other users</h2>
+            }
+            else
+            {
+                <h2>You tend to choose beers with a higher ABV than other users</h2>
+            }
+        </div>
+    </div>
 </div>
-<canvas id="abvChart" width="1000" height="300"></canvas>
 
 <script>
     var data = {
@@ -71,4 +86,4 @@ else
     }
 
     var ctx = new Chart(document.getElementById("abvChart").getContext("2d")).Line(data);
-</script>
+            </script>
