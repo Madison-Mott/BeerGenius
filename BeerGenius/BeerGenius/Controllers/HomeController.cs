@@ -100,14 +100,28 @@ namespace BeerGenius.Controllers
         }
 
 
-        public IActionResult UserProfile()
+        public async Task <IActionResult> UserProfile()
         {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
+
             var profileData = new ProfileData();
             profileData.CurrentUserDataOverTime = new List<Dictionary<string, double>>();
             profileData.AllUserDataOverTime = new List<Dictionary<string, double>>();
 
             var userFlavorProfiles = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == session.GetInt32("UserId"));
             var allFlavorProfiles = beerGeniusDbContext.UserFlavorProfiles;
+
+            var sevenDaysBack = DateTime.Now.Date.AddDays(-7);
+            var sevenDayQuery = userFlavorProfiles.Where(x => x.Date > sevenDaysBack);
+            if (sevenDayQuery.Any())
+            {
+                var mostSelectedSevenDays = sevenDayQuery.GroupBy(x => x.MatchingFlavorProfileId).OrderByDescending(y => y.Count()).First();
+                var mostSelectedSevenDaysInt = mostSelectedSevenDays.Key;
+                var favoriteStyleResponse = await client.GetAsync($"style/{mostSelectedSevenDaysInt}?key=7ff275d01954f19419c312477a03e672");
+                var favoriteStyleContent = await favoriteStyleResponse.Content.ReadAsAsync<IndividualStyle>();
+                profileData.FavoriteStyleThisWeek = favoriteStyleContent.data.name;
+            }
 
             DateTime today = DateTime.Today;
             int currentDayOfWeek = (int)today.DayOfWeek;
@@ -116,18 +130,36 @@ namespace BeerGenius.Controllers
             {
                 DateTime xDaysBack = today.AddDays(-i);
                 var daySelections = userFlavorProfiles.Where(x => x.Date.ToString("dd/MM/yyyy") == xDaysBack.ToString("dd/MM/yyyy"));
-                profileData.CurrentUserDataOverTime.Add(new Dictionary<string, double>()
+                if (daySelections.Any())
                 {
-                    { "abv", Math.Round((daySelections.Average(x => x.ABV)), 2) },
-                    { "color", Math.Round((daySelections.Average(x => x.Color)), 2) },
-                    { "crisp", Math.Round((daySelections.Average(x => x.Crisp)), 2) },
-                    { "fruity", Math.Round((daySelections.Average(x => x.Fruity)), 2) },
-                    { "hop", Math.Round((daySelections.Average(x => x.Hop)), 2) },
-                    { "malt", Math.Round((daySelections.Average(x => x.Malt)), 2) },
-                    { "roasty", Math.Round((daySelections.Average(x => x.Roasty)), 2) },
-                    { "sour", Math.Round((daySelections.Average(x => x.Sour)), 2) },
-                    { "sweet", Math.Round((daySelections.Average(x => x.Sweetness)), 2) }
-                });
+                    profileData.CurrentUserDataOverTime.Add(new Dictionary<string, double>()
+                    {
+                        { "abv", Math.Round((daySelections.Average(x => x.ABV)), 2) },
+                        { "color", Math.Round((daySelections.Average(x => x.Color)), 2) },
+                        { "crisp", Math.Round((daySelections.Average(x => x.Crisp)), 2) },
+                        { "fruity", Math.Round((daySelections.Average(x => x.Fruity)), 2) },
+                        { "hop", Math.Round((daySelections.Average(x => x.Hop)), 2) },
+                        { "malt", Math.Round((daySelections.Average(x => x.Malt)), 2) },
+                        { "roasty", Math.Round((daySelections.Average(x => x.Roasty)), 2) },
+                        { "sour", Math.Round((daySelections.Average(x => x.Sour)), 2) },
+                        { "sweet", Math.Round((daySelections.Average(x => x.Sweetness)), 2) }
+                    });
+                }
+                else
+                {
+                    profileData.CurrentUserDataOverTime.Add(new Dictionary<string, double>()
+                    {
+                        { "abv", 0 },
+                        { "color", 0 },
+                        { "crisp", 0 },
+                        { "fruity", 0 },
+                        { "hop", 0 },
+                        { "malt", 0 },
+                        { "roasty", 0 },
+                        { "sour", 0 },
+                        { "sweet", 0 }
+                    });
+                }
 
                 var daySelectionsAll = allFlavorProfiles.Where(x => x.Date.ToString("dd/MM/yyyy") == xDaysBack.ToString("dd/MM/yyyy"));
                 profileData.AllUserDataOverTime.Add(new Dictionary<string, double>()

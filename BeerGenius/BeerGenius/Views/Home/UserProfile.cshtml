@@ -12,6 +12,20 @@
 
 <div class="wordart italic-outline"><span class="text">Your Flavor Profiles</span></div>
 
+@if (Model.FavoriteStyleThisWeek == null)
+{
+    <p>
+        You haven't been matched with any styles this week
+    </p>
+}
+else
+{
+    <p>
+        Your most matched style this week has been
+        @Model.FavoriteStyleThisWeek;
+    </p>
+}
+
 <h2>Average ABV Over Time</h2>
 <div>
     <font color="rgb(220,220,220)">Your Averages</font>
