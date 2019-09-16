@@ -100,14 +100,51 @@ namespace BeerGenius.Controllers
         }
 
 
-        public async Task<IActionResult> UserProfile(int id)
+        public IActionResult UserProfile()
         {
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("https://sandbox-api.brewerydb.com/v2/");
+            var profileData = new ProfileData();
+            profileData.CurrentUserDataOverTime = new List<Dictionary<string, double>>();
+            profileData.AllUserDataOverTime = new List<Dictionary<string, double>>();
 
-            var response = await client.GetAsync($"style/{id}?key=7ff275d01954f19419c312477a03e672");
-            var content = await response.Content.ReadAsAsync<IndividualStyle>();
-            return View(content);
+            var userFlavorProfiles = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.UserId == session.GetInt32("UserId"));
+            var allFlavorProfiles = beerGeniusDbContext.UserFlavorProfiles;
+
+            DateTime today = DateTime.Today;
+            int currentDayOfWeek = (int)today.DayOfWeek;
+
+            for (int i = 5; i > 0; i--)
+            {
+                DateTime xDaysBack = today.AddDays(-i);
+                var daySelections = userFlavorProfiles.Where(x => x.Date.ToString("dd/MM/yyyy") == xDaysBack.ToString("dd/MM/yyyy"));
+                profileData.CurrentUserDataOverTime.Add(new Dictionary<string, double>()
+                {
+                    { "abv", Math.Round((daySelections.Average(x => x.ABV)), 2) },
+                    { "color", Math.Round((daySelections.Average(x => x.Color)), 2) },
+                    { "crisp", Math.Round((daySelections.Average(x => x.Crisp)), 2) },
+                    { "fruity", Math.Round((daySelections.Average(x => x.Fruity)), 2) },
+                    { "hop", Math.Round((daySelections.Average(x => x.Hop)), 2) },
+                    { "malt", Math.Round((daySelections.Average(x => x.Malt)), 2) },
+                    { "roasty", Math.Round((daySelections.Average(x => x.Roasty)), 2) },
+                    { "sour", Math.Round((daySelections.Average(x => x.Sour)), 2) },
+                    { "sweet", Math.Round((daySelections.Average(x => x.Sweetness)), 2) }
+                });
+
+                var daySelectionsAll = allFlavorProfiles.Where(x => x.Date.ToString("dd/MM/yyyy") == xDaysBack.ToString("dd/MM/yyyy"));
+                profileData.AllUserDataOverTime.Add(new Dictionary<string, double>()
+                {
+                    { "abv", Math.Round((daySelectionsAll.Average(x => x.ABV)), 2) },
+                    { "color", Math.Round((daySelectionsAll.Average(x => x.Color)), 2) },
+                    { "crisp", Math.Round((daySelectionsAll.Average(x => x.Crisp)), 2) },
+                    { "fruity", Math.Round((daySelectionsAll.Average(x => x.Fruity)), 2) },
+                    { "hop", Math.Round((daySelectionsAll.Average(x => x.Hop)), 2) },
+                    { "malt", Math.Round((daySelectionsAll.Average(x => x.Malt)), 2) },
+                    { "roasty", Math.Round((daySelectionsAll.Average(x => x.Roasty)), 2) },
+                    { "sour", Math.Round((daySelectionsAll.Average(x => x.Sour)), 2) },
+                    { "sweet", Math.Round((daySelectionsAll.Average(x => x.Sweetness)), 2) }
+                });
+            }
+
+            return View(profileData);
         }
 
         public IActionResult StartSurvey()

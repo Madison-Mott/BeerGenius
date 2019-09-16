@@ -23,7 +23,7 @@ namespace BeerGenius.Models
     }
 
     public class FavoriteBeers
-    { 
+    {
         [Key]
         public int BeerId { get; set; }
         public int UserIdForeignKey { get; set; }
@@ -87,5 +87,11 @@ namespace BeerGenius.Models
                     break;
             }
         }
+    }
+
+    public class ProfileData
+    {
+        public List<Dictionary<string, double>> CurrentUserDataOverTime { get; set; }
+        public List<Dictionary<string, double>> AllUserDataOverTime { get; set; }
     }
 }

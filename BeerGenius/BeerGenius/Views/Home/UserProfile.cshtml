@@ -1,9 +1,60 @@
-﻿@model IndividualStyle
-
+﻿@model ProfileData
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
 
 @{
     ViewData["Title"] = "UserProfile";
+    var fourDaysBack = @DateTime.Now.AddDays(-4).ToString("dd/MM/yyyy");
+    var threeDaysBack = @DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
+    var twoDaysBack = @DateTime.Now.AddDays(-2).ToString("dd/MM/yyyy");
+    var oneDayBack = @DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy");
+    var today = @DateTime.Now.ToString("dd/MM/yyyy");
 }
 
 <div class="wordart italic-outline"><span class="text">Your Flavor Profiles</span></div>
 
+<h2>Average ABV Over Time</h2>
+<div>
+    <font color="rgb(220,220,220)">Your Averages</font>
+</div>
+<div>
+    <font color="rgb(151,187,205)">Everyone's Averages</font>
+</div>
+<canvas id="abvChart" width="1000" height="300"></canvas>
+
+<script>
+    var data = {
+        labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
+        datasets: [
+            {
+                label: "Your Average ABV",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [@Model.CurrentUserDataOverTime[0]["abv"],
+                    @Model.CurrentUserDataOverTime[1]["abv"],
+                    @Model.CurrentUserDataOverTime[2]["abv"],
+                    @Model.CurrentUserDataOverTime[3]["abv"],
+                    @Model.CurrentUserDataOverTime[4]["abv"]]
+            },
+            {
+                label: "All Users Average ABV",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [@Model.AllUserDataOverTime[0]["abv"],
+                    @Model.AllUserDataOverTime[1]["abv"],
+                    @Model.AllUserDataOverTime[2]["abv"],
+                    @Model.AllUserDataOverTime[3]["abv"],
+                    @Model.AllUserDataOverTime[4]["abv"]]
+            }
+        ]
+    }
+
+    var ctx = new Chart(document.getElementById("abvChart").getContext("2d")).Line(data);
+</script>
