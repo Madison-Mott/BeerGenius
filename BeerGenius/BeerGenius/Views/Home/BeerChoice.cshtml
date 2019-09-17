@@ -4,18 +4,19 @@
     ViewData["Title"] = "BeerChoice";
 }
 
+<div style="text-align: center;">
+    <div class="wordart italic-outline"><span class="text">Most popular style</span></div>
+    <div style="display: flex; flex-flow: column nowrap;
+    background-color: rgba( 250, 250, 250, 0.7 ); box-shadow: 2px 2px 10px rgba( 0, 0, 0, 0.3 ); border-radius: 3px;
+    margin: 25px 0px; padding: 20px; color: #222222;">
 
-<div class="wordart italic-outline"><span class="text">Most popular style</span></div>
-<p>
+        <p>
+            The most popular beer style overall is
+            <strong>@Model.data.name</strong> and was chosen <strong>@ViewData["MostPopular"]</strong> times!
+        </p>
 
-</p>
-
-<h1>
-The most popular beer style overall is
-@Model.data.name and was chosen  @ViewData["MostPopular"] times!
-</h1>
-<div></div>
-<h2>
-    The alcohol content is between @Model.data.abvMax and @Model.data.abvMin
-</h2>
-
+        <p>
+            The alcohol content is between <strong>@Model.data.abvMax</strong> and <strong>@Model.data.abvMin</strong>
+        </p>
+    </div>
+</div>

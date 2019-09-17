@@ -10,47 +10,61 @@
     var today = @DateTime.Now.ToString("dd/MM/yyyy");
 }
 
-<div class="wordart italic-outline"><span class="text">Your Flavor Profiles</span></div>
+<div style ="text-align: center;">
+    <div class="wordart italic-outline"><span class="text">Your Flavor Profiles</span></div>
 
-@if (Model.FavoriteStyleThisWeek == null)
-{
-    <p>
-        You haven't been matched with any styles this week
-    </p>
-}
-else
-{
-    <p>
-        Your most matched style this week has been
-        @Model.FavoriteStyleThisWeek;
-    </p>
-}
+    <div style="display: flex; flex-flow: column nowrap;
+    background-color: rgba( 250, 250, 250, 0.7 ); box-shadow: 2px 2px 10px rgba( 0, 0, 0, 0.3 ); border-radius: 3px;
+    margin: 25px 0px; padding: 20px; color: #222222;">
 
-<h2>Average ABV Over Time</h2>
-<div>
-    <p style="color: rgb(220,220,220)">Your Averages</p>
-    <p style="color: rgb(151,187,205)">Everyone's Averages</p>
-</div>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <canvas id="abvChart" width="600" height="300"></canvas>
-        </div>
-        <div class="col">
-            @if (Model.AllAbvAverage > Model.UserAbvAverage)
-            {
-                <h2>You tend to choose beers with a lower ABV than other users</h2>
-            }
-            else
-            {
-                <h2>You tend to choose beers with a higher ABV than other users</h2>
-            }
+    @if (Model.FavoriteStyleThisWeek == null)
+    {
+        <h4>
+            You haven't been matched with any styles this week
+        </h4>
+    }
+    else
+    {
+        <h4>
+            Your most matched style this week has been
+            <strong>@Model.FavoriteStyleThisWeek</strong>
+        </h4>
+    }
+
+    <h2>Average ABV Over Time</h2>
+    <div>
+        <p style="color: rgb(220,220,220)">Your Averages</p>
+        <p style="color: rgb(240, 142, 67)">Everyone's Averages</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <canvas id="abvChart" width="600" height="300"></canvas>
+            </div>
+            <div class="col">
+                @if (Model.AllAbvAverage > Model.UserAbvAverage)
+                {
+                    
+                    <h2>You tend to choose beers with a lower ABV than other users</h2>
+                }
+                else
+                {
+                    
+                    <h2>You tend to choose beers with a higher ABV than other users</h2>
+                }
+            </div>
         </div>
     </div>
-</div>
 
-<script>
+    </div>
+
+    <script>
+
+
+
+
     var data = {
         labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
         datasets: [
@@ -70,12 +84,12 @@ else
             },
             {
                 label: "All Users Average ABV",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
+                fillColor: "rgba(240, 142, 67,.3)",
+                strokeColor: "rgba(240, 142, 67,.3)",
+                pointColor: "rgba(240, 142, 67,.3)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
+                pointHighlightStroke: "rgba(240, 142, 67,.3)",
                 data: [@Model.AllUserDataOverTime[0]["abv"],
                     @Model.AllUserDataOverTime[1]["abv"],
                     @Model.AllUserDataOverTime[2]["abv"],
@@ -86,4 +100,7 @@ else
     }
 
     var ctx = new Chart(document.getElementById("abvChart").getContext("2d")).Line(data);
-            </script>
+    </script>
+
+</div>
+</div>
