@@ -94,6 +94,7 @@ namespace BeerGenius.Models
         public List<Dictionary<string, double>> CurrentUserDataOverTime { get; set; }
         public List<Dictionary<string, double>> AllUserDataOverTime { get; set; }
         public string FavoriteStyleThisWeek { get; set; }
+        public string SuggestedStyle { get; set; }
         public double UserAbvAverage { get; set; }
         public double AllAbvAverage { get; set; }
         public double UserColorAverage { get; set; }

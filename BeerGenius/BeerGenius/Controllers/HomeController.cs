@@ -121,6 +121,19 @@ namespace BeerGenius.Controllers
                 var favoriteStyleResponse = await client.GetAsync($"style/{mostSelectedSevenDaysInt}?key=7ff275d01954f19419c312477a03e672");
                 var favoriteStyleContent = await favoriteStyleResponse.Content.ReadAsAsync<IndividualStyle>();
                 profileData.FavoriteStyleThisWeek = favoriteStyleContent.data.name;
+
+                var favoriteCategoryId = favoriteStyleContent.data.category.id;
+                var allStyleResponse = await client.GetAsync($"styles/?key=7ff275d01954f19419c312477a03e672");
+                var allStyleContent = await allStyleResponse.Content.ReadAsAsync<StyleRequest>();
+                var styleWithMatchingCategory = allStyleContent.data;
+                foreach (var item in styleWithMatchingCategory)
+                {
+                    if (item.category.id == favoriteCategoryId && item.name != profileData.FavoriteStyleThisWeek)
+                    {
+                        profileData.SuggestedStyle = item.name;
+                    }
+                }
+
             }
 
             DateTime today = DateTime.Today;
