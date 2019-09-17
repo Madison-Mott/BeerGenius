@@ -96,5 +96,21 @@ namespace BeerGenius.Models
         public string FavoriteStyleThisWeek { get; set; }
         public double UserAbvAverage { get; set; }
         public double AllAbvAverage { get; set; }
+        public double UserColorAverage { get; set; }
+        public double AllColorAverage { get; set; }
+        public double UserCrispAverage { get; set; }
+        public double AllCrispAverage { get; set; }
+        public double UserFruityAverage { get; set; }
+        public double AllFruityAverage { get; set; }
+        public double UserHopAverage { get; set; }
+        public double AllHopAverage { get; set; }
+        public double UserMaltAverage { get; set; }
+        public double AllMaltAverage { get; set; }
+        public double UserRoastyAverage { get; set; }
+        public double AllRoastyAverage { get; set; }
+        public double UserSourAverage { get; set; }
+        public double AllSourAverage { get; set; }
+        public double UserSweetAverage { get; set; }
+        public double AllSweetAverage { get; set; }
     }
 }

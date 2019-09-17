@@ -179,13 +179,48 @@ namespace BeerGenius.Controllers
             foreach (var item in profileData.CurrentUserDataOverTime)
             {
                 profileData.UserAbvAverage += item["abv"];
+                profileData.UserColorAverage += item["color"];
+                profileData.UserCrispAverage += item["crisp"];
+                profileData.UserFruityAverage += item["fruity"];
+                profileData.UserHopAverage += item["hop"];
+                profileData.UserRoastyAverage += item["roasty"];
+                profileData.UserSourAverage += item["sour"];
+                profileData.UserSweetAverage += item["sweet"];
             }
             foreach (var item in profileData.AllUserDataOverTime)
             {
                 profileData.AllAbvAverage += item["abv"];
+                profileData.AllColorAverage += item["color"];
+                profileData.AllCrispAverage += item["crisp"];
+                profileData.AllRoastyAverage += item["fruity"];
+                profileData.AllHopAverage += item["hop"];
+                profileData.AllRoastyAverage += item["roasty"];
+                profileData.AllSourAverage += item["sour"];
+                profileData.AllSweetAverage += item["sweet"];
             }
             profileData.UserAbvAverage = profileData.UserAbvAverage / profileData.CurrentUserDataOverTime.Count();
             profileData.AllAbvAverage = profileData.AllAbvAverage / profileData.AllUserDataOverTime.Count();
+
+            profileData.UserColorAverage = profileData.UserColorAverage / profileData.CurrentUserDataOverTime.Count();
+            profileData.AllColorAverage = profileData.AllColorAverage / profileData.AllUserDataOverTime.Count();
+
+            profileData.UserCrispAverage = profileData.UserCrispAverage / profileData.CurrentUserDataOverTime.Count();
+            profileData.AllCrispAverage = profileData.AllCrispAverage / profileData.AllUserDataOverTime.Count();
+
+            profileData.UserFruityAverage = profileData.UserFruityAverage / profileData.CurrentUserDataOverTime.Count();
+            profileData.AllFruityAverage = profileData.AllFruityAverage / profileData.AllUserDataOverTime.Count();
+
+            profileData.UserHopAverage = profileData.UserHopAverage / profileData.CurrentUserDataOverTime.Count();
+            profileData.AllHopAverage = profileData.AllHopAverage / profileData.AllUserDataOverTime.Count();
+
+            profileData.UserRoastyAverage = profileData.UserRoastyAverage / profileData.CurrentUserDataOverTime.Count();
+            profileData.AllRoastyAverage = profileData.AllRoastyAverage / profileData.AllUserDataOverTime.Count();
+
+            profileData.UserSourAverage = profileData.UserSourAverage / profileData.CurrentUserDataOverTime.Count();
+            profileData.AllSourAverage = profileData.AllSourAverage / profileData.AllUserDataOverTime.Count();
+
+            profileData.UserSweetAverage = profileData.UserSweetAverage / profileData.CurrentUserDataOverTime.Count();
+            profileData.AllSweetAverage = profileData.AllSweetAverage / profileData.AllUserDataOverTime.Count();
 
             return View(profileData);
         }
