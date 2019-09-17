@@ -11,8 +11,11 @@
 </p>
 
 <h1>
-    @ViewData["MostPopular"]
-    The most popular beer style overall is
-    @Model.data.name
+The most popular beer style overall is
+@Model.data.name and was chosen  @ViewData["MostPopular"] times!
 </h1>
+<div></div>
+<h2>
+    The alcohol content is between @Model.data.abvMax and @Model.data.abvMin
+</h2>
 
