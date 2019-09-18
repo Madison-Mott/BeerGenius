@@ -26,6 +26,13 @@ namespace BeerGenius.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult RemoveSession()
+        {
+            session.Remove("User");
+            session.Remove("UserId");
+            return RedirectToAction("Index", "Home");
+        }
+
         public IActionResult Hop()
         {
             return View();

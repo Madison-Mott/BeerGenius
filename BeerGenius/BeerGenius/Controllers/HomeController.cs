@@ -99,6 +99,15 @@ namespace BeerGenius.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Logout()
+        {
+            session.Remove("User");
+            session.Remove("UserId");
+            RedirectToAction("RemoveSession", "Questions");
+
+            return RedirectToAction("Index");
+        }
+
 
         public async Task <IActionResult> UserProfile()
         {
@@ -199,6 +208,7 @@ namespace BeerGenius.Controllers
                 profileData.UserRoastyAverage += item["roasty"];
                 profileData.UserSourAverage += item["sour"];
                 profileData.UserSweetAverage += item["sweet"];
+                profileData.UserMaltAverage += item["malt"];
             }
             foreach (var item in profileData.AllUserDataOverTime)
             {
@@ -210,6 +220,7 @@ namespace BeerGenius.Controllers
                 profileData.AllRoastyAverage += item["roasty"];
                 profileData.AllSourAverage += item["sour"];
                 profileData.AllSweetAverage += item["sweet"];
+                profileData.AllMaltAverage += item["malt"];
             }
             profileData.UserAbvAverage = profileData.UserAbvAverage / profileData.CurrentUserDataOverTime.Count();
             profileData.AllAbvAverage = profileData.AllAbvAverage / profileData.AllUserDataOverTime.Count();
@@ -234,6 +245,9 @@ namespace BeerGenius.Controllers
 
             profileData.UserSweetAverage = profileData.UserSweetAverage / profileData.CurrentUserDataOverTime.Count();
             profileData.AllSweetAverage = profileData.AllSweetAverage / profileData.AllUserDataOverTime.Count();
+
+            profileData.UserMaltAverage = profileData.UserMaltAverage / profileData.CurrentUserDataOverTime.Count();
+            profileData.AllMaltAverage = profileData.AllMaltAverage / profileData.AllUserDataOverTime.Count();
 
             return View(profileData);
         }
