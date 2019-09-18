@@ -55,28 +55,33 @@ var oneDayBack = @DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy");
 var today = @DateTime.Now.ToString("dd/MM/yyyy");
 }
 
-<h1 style="text-align: center;">User Trends</h1>
+<div style="text-align: center;">
+    <div class="wordart italic-outline"><span class="text">User Trends</span></div>
+</div>
+
 
 <section class="box-card">
     @if (Model.FavoriteStyleThisWeek == null)
     {
-    <h4>
+    <h2>
         You haven't been matched with any styles this week
-    </h4>
+    </h2>
     }
     else
     {
-    <h4>
-        Your most matched style this week has been
-        <strong>@Model.FavoriteStyleThisWeek</strong>
-    </h4>
+    <h2>
+        <strong>Your most matched style this week has been ... </strong>
+    </h2>
+
+    <h4 class="neon"><span class="text"><strong>@Model.FavoriteStyleThisWeek</strong>!</span></h4>
+    }
     @if (Model.SuggestedStyle != null)
     {
-    <h4>
+    <h2>
         You may enjoy also enjoy the <strong>@Model.SuggestedStyle</strong> style within the same family
-    </h4>
+    </h2>
     }
-    }
+    
 </section>
 
 <section class="box-card">
