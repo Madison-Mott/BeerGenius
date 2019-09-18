@@ -24,8 +24,8 @@ namespace BeerGenius.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var deleteThisShit = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.MatchingFlavorProfileId == 0);
-            foreach (var item in deleteThisShit)
+            var deleteIncompleteSurvey = beerGeniusDbContext.UserFlavorProfiles.Where(x => x.MatchingFlavorProfileId == 0);
+            foreach (var item in deleteIncompleteSurvey)
             {
                 beerGeniusDbContext.Remove(item);
             }
