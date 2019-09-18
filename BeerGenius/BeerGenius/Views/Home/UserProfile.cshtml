@@ -3,538 +3,579 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+<style>
+    :root {
+        --data-user-color: rgb(217, 110, 17);
+        --data-all-color: rgb(87, 38, 15);
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    h4 {
+        text-align: center;
+    }
+
+    canvas {
+        width: 100%;
+    }
+
+    .legend {
+        text-align: center;
+    }
+
+    .data-user {
+        color: var(--data-user-color);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.13);
+    }
+
+    .data-user:before {
+        color: var(--data-user-color);
+        content: '\25CF '
+    }
+
+    .data-all {
+        color: var(--data-all-color);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .data-all:before {
+        color: var(--data-all-color);
+        content: '\25CF '
+    }
+</style>
+
 @{
-    ViewData["Title"] = "UserProfile";
-    var fourDaysBack = @DateTime.Now.AddDays(-4).ToString("dd/MM/yyyy");
-    var threeDaysBack = @DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
-    var twoDaysBack = @DateTime.Now.AddDays(-2).ToString("dd/MM/yyyy");
-    var oneDayBack = @DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy");
-    var today = @DateTime.Now.ToString("dd/MM/yyyy");
+ViewData["Title"] = "UserProfile";
+var fourDaysBack = @DateTime.Now.AddDays(-4).ToString("dd/MM/yyyy");
+var threeDaysBack = @DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
+var twoDaysBack = @DateTime.Now.AddDays(-2).ToString("dd/MM/yyyy");
+var oneDayBack = @DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy");
+var today = @DateTime.Now.ToString("dd/MM/yyyy");
 }
 
-<div style="display: flex; flex-flow: column nowrap;
-background-color: rgba( 250, 250, 250, 0.7 ); box-shadow: 2px 2px 10px rgba( 0, 0, 0, 0.3 ); border-radius: 3px;
-margin: 25px 0px; padding: 20px; color: #222222;">
+<h1 style="text-align: center;">User Trends</h1>
+
+<section class="box-card">
     @if (Model.FavoriteStyleThisWeek == null)
     {
-        <h4>
-            You haven't been matched with any styles this week
-        </h4>
+    <h4>
+        You haven't been matched with any styles this week
+    </h4>
     }
     else
     {
-        <h4>
-            Your most matched style this week has been
-            <strong>@Model.FavoriteStyleThisWeek</strong>
-        </h4>
-        @if (Model.SuggestedStyle != null)
-        {
-            <h4>
-                You may enjoy also enjoy this style within the same family
-                <strong>@Model.SuggestedStyle</strong>
-            </h4>
-        }
+    <h4>
+        Your most matched style this week has been
+        <strong>@Model.FavoriteStyleThisWeek</strong>
+    </h4>
+    @if (Model.SuggestedStyle != null)
+    {
+    <h4>
+        You may enjoy also enjoy the <strong>@Model.SuggestedStyle</strong> style within the same family
+    </h4>
     }
+    }
+</section>
 
-    <div>
-        <h2>Average ABV Over Time</h2>
-        <div>
-            <p style="color: rgb(220,220,220)">Your Averages</p>
-            <p style="color: rgb(151,187,205)">Everyone's Averages</p>
-        </div>
+<section class="box-card">
+    <h2>Average ABV Over Time</h2>
 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <canvas id="abvChart" width="600" height="300"></canvas>
-                    <script>
-                        var data = {
-                            labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
-                            datasets: [
-                                {
-                                    label: "Your Average ABV",
-                                    fillColor: "rgba(220,220,220,0.2)",
-                                    strokeColor: "rgba(220,220,220,1)",
-                                    pointColor: "rgba(220,220,220,1)",
-                                    pointStrokeColor: "#fff",
-                                    pointHighlightFill: "#fff",
-                                    pointHighlightStroke: "rgba(220,220,220,1)",
-                                    data: [@Model.CurrentUserDataOverTime[0]["abv"],
-                                        @Model.CurrentUserDataOverTime[1]["abv"],
-                                        @Model.CurrentUserDataOverTime[2]["abv"],
-                                        @Model.CurrentUserDataOverTime[3]["abv"],
-                                        @Model.CurrentUserDataOverTime[4]["abv"]]
-                                },
-                                {
-                                    label: "All Users Average ABV",
-                                    fillColor: "rgba(151,187,205,0.2)",
-                                    strokeColor: "rgba(151,187,205,1)",
-                                    pointColor: "rgba(151,187,205,1)",
-                                    pointStrokeColor: "#fff",
-                                    pointHighlightFill: "#fff",
-                                    pointHighlightStroke: "rgba(151,187,205,1)",
-                                    data: [@Model.AllUserDataOverTime[0]["abv"],
-                                        @Model.AllUserDataOverTime[1]["abv"],
-                                        @Model.AllUserDataOverTime[2]["abv"],
-                                        @Model.AllUserDataOverTime[3]["abv"],
-                                        @Model.AllUserDataOverTime[4]["abv"]]
-                                }
-                            ]
-                        }
-                        var ctx = new Chart(document.getElementById("abvChart").getContext("2d")).Line(data);
-                    </script>
-                </div>
-                <div class="col">
-                    @if (Model.AllAbvAverage > Model.UserAbvAverage)
-                    {
-                        <h2>You tend to choose beers with a lower ABV than other users</h2>
-                    }
-                    else
-                    {
-                        <h2>You tend to choose beers with a higher ABV than other users</h2>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
+    <main>
+        <canvas id="abvChart" width="600" height="300" "></canvas>
+        <script>
+            var data = {
+                labels: [" @fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
+                datasets: [{
+                    label: "Your Average ABV",
+                    fillColor: "rgba(87, 38, 15,0.2)",
+                    strokeColor: "rgba(87, 38, 15,1)",
+                    pointColor: "rgba(87, 38, 15,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(87, 38, 15,1)",
+                    data: [@Model.CurrentUserDataOverTime[0]["abv"], @Model.CurrentUserDataOverTime[1]["abv"],
+                        @Model.CurrentUserDataOverTime[2]["abv"], @Model.CurrentUserDataOverTime[3]["abv"],
+                        @Model.CurrentUserDataOverTime[4]["abv"]
+                    ]
+                }, {
+                    label: "All Users Average ABV",
+                    fillColor: "rgba(217, 110, 17,0.2)",
+                    strokeColor: "rgba(217, 110, 17,1)",
+                    pointColor: "rgba(217, 110, 17,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(217, 110, 17,1)",
+                    data: [@Model.AllUserDataOverTime[0]["abv"],
+                        @Model.AllUserDataOverTime[1]["abv"], @Model.AllUserDataOverTime[2]["abv"],
+                        @Model.AllUserDataOverTime[3]["abv"], @Model.AllUserDataOverTime[4]["abv"]
+                    ]
+                }]
+            }
+            var ctx = new Chart(document.getElementById("abvChart").getContext("2d")).Line(data); 
+            </script> 
+    </main>
 
-    <div>
-        <h2>Average Crisp Preference Over Time</h2>
-        <div>
-            <p style="color: rgb(220,220,220)">Your Averages</p>
-            <p style="color: rgb(151,187,205)">Everyone's Averages</p>
-        </div>
+            <aside class="legend">
+            <span class="data-user">Your Averages</span>
+            &emsp;
+            <span class="data-all">All User Averages</span>
+            </aside>
 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <canvas id="crispChart" width="600" height="300"></canvas>
-                </div>
-                <div class="col">
-                    @if (Model.AllCrispAverage > Model.UserCrispAverage)
-                    {
-                        <h2>You tend to choose beers that are less crisp than other users</h2>
-                    }
-                    else
-                    {
-                        <h2>You tend to choose beers that are more crisp than other users</h2>
-                    }
-                </div>
-            </div>
-        </div>
+            <aside>
+                @if (Model.AllAbvAverage > Model.UserAbvAverage)
+                {
+                <h4>You tend to choose beers with a lower ABV than other users</h4>
+                }
+                else
+                {
+                <h4>You tend to choose beers with a higher ABV than other users</h4>
+                }
+            </aside>
+</section>
 
+<section class="box-card">
+
+    <h2>Average Crisp Preference Over Time</h2>
+
+    <main>
+        <canvas id="crispChart" width="600" height="300"></canvas>
         <script>
             var data = {
                 labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
-                datasets: [
-                    {
+                datasets: [{
                         label: "Your Average Crisp Preference",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
+                        fillColor: "rgba(87, 38, 15,0.2)",
+                        strokeColor: "rgba(87, 38, 15,1)",
+                        pointColor: "rgba(87, 38, 15,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "rgba(87, 38, 15,1)",
                         data: [@Model.CurrentUserDataOverTime[0]["crisp"],
                             @Model.CurrentUserDataOverTime[1]["crisp"],
                             @Model.CurrentUserDataOverTime[2]["crisp"],
                             @Model.CurrentUserDataOverTime[3]["crisp"],
-                            @Model.CurrentUserDataOverTime[4]["crisp"]]
+                            @Model.CurrentUserDataOverTime[4]["crisp"]
+                        ]
                     },
                     {
                         label: "All Users Average Crisp Preference",
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
+                        fillColor: "rgba(217, 110, 17,0.2)",
+                        strokeColor: "rgba(217, 110, 17,1)",
+                        pointColor: "rgba(217, 110, 17,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        pointHighlightStroke: "rgba(217, 110, 17,1)",
                         data: [@Model.AllUserDataOverTime[0]["crisp"],
                             @Model.AllUserDataOverTime[1]["crisp"],
                             @Model.AllUserDataOverTime[2]["crisp"],
                             @Model.AllUserDataOverTime[3]["crisp"],
-                            @Model.AllUserDataOverTime[4]["crisp"]]
+                            @Model.AllUserDataOverTime[4]["crisp"]
+                        ]
                     }
                 ]
             }
             var ctx = new Chart(document.getElementById("crispChart").getContext("2d")).Line(data);
         </script>
-    </div>
+    </main>
 
-    <div>
-        <h2>Average Fruit Preference Over Time</h2>
-        <div>
-            <p style="color: rgb(220,220,220)">Your Averages</p>
-            <p style="color: rgb(151,187,205)">Everyone's Averages</p>
-        </div>
+    <aside class="legend">
+        <span class="data-user">Your Averages</span>
+        &emsp;
+        <span class="data-all">All User Averages</span>
+    </aside>
 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <canvas id="fruitChart" width="600" height="300"></canvas>
-                </div>
-                <div class="col">
-                    @if (Model.AllFruityAverage > Model.UserFruityAverage)
-                    {
-                        <h2>You tend to choose beers with a lower fruit flavor than other users</h2>
-                    }
-                    else
-                    {
-                        <h2>You tend to choose beers with a higher fruit flavor than other users</h2>
-                    }
-                </div>
-            </div>
-        </div>
+    <aside>
+        @if (Model.AllCrispAverage > Model.UserCrispAverage)
+        {
+        <h4>You tend to choose beers that are less crisp than other users</h4>
+        }
+        else
+        {
+        <h4>You tend to choose beers that are more crisp than other users</h4>
+        }
+    </aside>
 
+</section>
+
+<section class="box-card">
+    <h2>Average Fruit Preference Over Time</h2>
+    <main>
+        <canvas id="fruitChart" width="600" height="300"></canvas>
         <script>
             var data = {
                 labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
-                datasets: [
-                    {
+                datasets: [{
                         label: "Your Average Fruit Flavor",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
+                        fillColor: "rgba(87, 38, 15,0.2)",
+                        strokeColor: "rgba(87, 38, 15,1)",
+                        pointColor: "rgba(87, 38, 15,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "rgba(87, 38, 15,1)",
                         data: [@Model.CurrentUserDataOverTime[0]["fruity"],
                             @Model.CurrentUserDataOverTime[1]["fruity"],
                             @Model.CurrentUserDataOverTime[2]["fruity"],
                             @Model.CurrentUserDataOverTime[3]["fruity"],
-                            @Model.CurrentUserDataOverTime[4]["fruity"]]
+                            @Model.CurrentUserDataOverTime[4]["fruity"]
+                        ]
                     },
                     {
                         label: "All Users Average Fruit Flavor",
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
+                        fillColor: "rgba(217, 110, 17,0.2)",
+                        strokeColor: "rgba(217, 110, 17,1)",
+                        pointColor: "rgba(217, 110, 17,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        pointHighlightStroke: "rgba(217, 110, 17,1)",
                         data: [@Model.AllUserDataOverTime[0]["fruity"],
                             @Model.AllUserDataOverTime[1]["fruity"],
                             @Model.AllUserDataOverTime[2]["fruity"],
                             @Model.AllUserDataOverTime[3]["fruity"],
-                            @Model.AllUserDataOverTime[4]["fruity"]]
+                            @Model.AllUserDataOverTime[4]["fruity"]
+                        ]
                     }
                 ]
             }
             var ctx = new Chart(document.getElementById("fruitChart").getContext("2d")).Line(data);
         </script>
-    </div>
+    </main>
 
-    <div>
-        <h2>Average Hop Preference Over Time</h2>
-        <div>
-            <p style="color: rgb(220,220,220)">Your Averages</p>
-            <p style="color: rgb(151,187,205)">Everyone's Averages</p>
-        </div>
+    <aside class="legend">
+        <span class="data-user">Your Averages</span>
+        &emsp;
+        <span class="data-all">All User Averages</span>
+    </aside>
+    @if (Model.AllFruityAverage > Model.UserFruityAverage)
+    {
+    <h2>You tend to choose beers with a lower fruit flavor than other users</h2>
+    }
+    else
+    {
+    <h2>You tend to choose beers with a higher fruit flavor than other users</h2>
+    }
+    </aside>
+</section>
 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <canvas id="hopChart" width="600" height="300"></canvas>
-                </div>
-                <div class="col">
-                    @if (Model.AllHopAverage > Model.UserHopAverage)
-                    {
-                        <h2>You tend to choose less hoppy beers than other users</h2>
-                    }
-                    else
-                    {
-                        <h2>You tend to choose more hoppy beers than other users</h2>
-                    }
-                </div>
-            </div>
-        </div>
-
+<section class="box-card">
+    <h2>Average Hop Preference Over Time</h2>
+    <main>
+        <canvas id="hopChart" width="600" height="300"></canvas>
         <script>
             var data = {
                 labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
-                datasets: [
-                    {
+                datasets: [{
                         label: "Your Average Hop Flavor",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
+                        fillColor: "rgba(87, 38, 15,0.2)",
+                        strokeColor: "rgba(87, 38, 15,1)",
+                        pointColor: "rgba(87, 38, 15,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "rgba(87, 38, 15,1)",
                         data: [@Model.CurrentUserDataOverTime[0]["hop"],
                             @Model.CurrentUserDataOverTime[1]["hop"],
                             @Model.CurrentUserDataOverTime[2]["hop"],
                             @Model.CurrentUserDataOverTime[3]["hop"],
-                            @Model.CurrentUserDataOverTime[4]["hop"]]
+                            @Model.CurrentUserDataOverTime[4]["hop"]
+                        ]
                     },
                     {
                         label: "All Users Average Hop Flavor",
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
+                        fillColor: "rgba(217, 110, 17,0.2)",
+                        strokeColor: "rgba(217, 110, 17,1)",
+                        pointColor: "rgba(217, 110, 17,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        pointHighlightStroke: "rgba(217, 110, 17,1)",
                         data: [@Model.AllUserDataOverTime[0]["hop"],
                             @Model.AllUserDataOverTime[1]["hop"],
                             @Model.AllUserDataOverTime[2]["hop"],
                             @Model.AllUserDataOverTime[3]["hop"],
-                            @Model.AllUserDataOverTime[4]["hop"]]
+                            @Model.AllUserDataOverTime[4]["hop"]
+                        ]
                     }
                 ]
             }
             var ctx = new Chart(document.getElementById("hopChart").getContext("2d")).Line(data);
         </script>
-    </div>
+    </main>
+    <aside class="legend">
+        <span class="data-user">Your Averages</span>
+        &emsp;
+        <span class="data-all">All User Averages</span>
+    </aside>
 
-    <div>
-        <h2>Average Malt Preference Over Time</h2>
-        <div>
-            <p style="color: rgb(220,220,220)">Your Averages</p>
-            <p style="color: rgb(151,187,205)">Everyone's Averages</p>
-        </div>
+    <aside>
 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <canvas id="maltChart" width="600" height="300"></canvas>
-                </div>
-                <div class="col">
-                    @if (Model.AllMaltAverage > Model.UserMaltAverage)
-                    {
-                        <h2>You tend to choose less malty beers than other users</h2>
-                    }
-                    else
-                    {
-                        <h2>You tend to choose more malty beers than other users</h2>
-                    }
-                </div>
-            </div>
-        </div>
+        @if (Model.AllHopAverage > Model.UserHopAverage)
+        {
+        <h4>You tend to choose less hoppy beers than other users</h4>
+        }
+        else
+        {
+        <h4>You tend to choose more hoppy beers than other users</h4>
+        }
 
+    </aside>
+
+
+</section>
+
+<section class="box-card">
+    <h2>Average Malt Preference Over Time</h2>
+    <main>
+        <canvas id="maltChart" width="600" height="300"></canvas>
         <script>
             var data = {
                 labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
-                datasets: [
-                    {
+                datasets: [{
                         label: "Your Average Malt Flavor",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
+                        fillColor: "rgba(87, 38, 15,0.2)",
+                        strokeColor: "rgba(87, 38, 15,1)",
+                        pointColor: "rgba(87, 38, 15,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "rgba(87, 38, 15,1)",
                         data: [@Model.CurrentUserDataOverTime[0]["malt"],
                             @Model.CurrentUserDataOverTime[1]["malt"],
                             @Model.CurrentUserDataOverTime[2]["malt"],
                             @Model.CurrentUserDataOverTime[3]["malt"],
-                            @Model.CurrentUserDataOverTime[4]["malt"]]
+                            @Model.CurrentUserDataOverTime[4]["malt"]
+                        ]
                     },
                     {
                         label: "All Users Average Malt Flavor",
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
+                        fillColor: "rgba(217, 110, 17,0.2)",
+                        strokeColor: "rgba(217, 110, 17,1)",
+                        pointColor: "rgba(217, 110, 17,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        pointHighlightStroke: "rgba(217, 110, 17,1)",
                         data: [@Model.AllUserDataOverTime[0]["malt"],
                             @Model.AllUserDataOverTime[1]["malt"],
                             @Model.AllUserDataOverTime[2]["malt"],
                             @Model.AllUserDataOverTime[3]["malt"],
-                            @Model.AllUserDataOverTime[4]["malt"]]
+                            @Model.AllUserDataOverTime[4]["malt"]
+                        ]
                     }
                 ]
             }
             var ctx = new Chart(document.getElementById("maltChart").getContext("2d")).Line(data);
         </script>
-    </div>
 
-    <div>
-        <h2>Average Roast Preference Over Time</h2>
-        <div>
-            <p style="color: rgb(220,220,220)">Your Averages</p>
-            <p style="color: rgb(151,187,205)">Everyone's Averages</p>
-        </div>
+    </main>
 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <canvas id="roastChart" width="600" height="300"></canvas>
-                </div>
-                <div class="col">
-                    @if (Model.AllRoastyAverage > Model.UserRoastyAverage)
-                    {
-                        <h2>You tend to choose less roasty beers than other users</h2>
-                    }
-                    else
-                    {
-                        <h2>You tend to choose more roasty beers than other users</h2>
-                    }
-                </div>
-            </div>
-        </div>
+    <aside class="legend">
+        <span class="data-user">Your Averages</span>
+        &emsp;
+        <span class="data-all">All User Averages</span>
+    </aside>
 
+    <aside>
+
+        @if (Model.AllMaltAverage > Model.UserMaltAverage)
+        {
+        <h2>You tend to choose less malty beers than other users</h2>
+        }
+        else
+        {
+        <h2>You tend to choose more malty beers than other users</h2>
+        }
+
+    </aside>
+
+
+</section>
+
+<section class="box-card">
+
+    <h2>Average Roast Preference Over Time</h2>
+
+    <main>
+        <canvas id="roastChart" width="600" height="300"></canvas>
         <script>
             var data = {
                 labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
-                datasets: [
-                    {
+                datasets: [{
                         label: "Your Average Roast Flavor",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
+                        fillColor: "rgba(87, 38, 15,0.2)",
+                        strokeColor: "rgba(87, 38, 15,1)",
+                        pointColor: "rgba(87, 38, 15,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "rgba(87, 38, 15,1)",
                         data: [@Model.CurrentUserDataOverTime[0]["roasty"],
                             @Model.CurrentUserDataOverTime[1]["roasty"],
                             @Model.CurrentUserDataOverTime[2]["roasty"],
                             @Model.CurrentUserDataOverTime[3]["roasty"],
-                            @Model.CurrentUserDataOverTime[4]["roasty"]]
+                            @Model.CurrentUserDataOverTime[4]["roasty"]
+                        ]
                     },
                     {
                         label: "All Users Average Roast Flavor",
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
+                        fillColor: "rgba(217, 110, 17,0.2)",
+                        strokeColor: "rgba(217, 110, 17,1)",
+                        pointColor: "rgba(217, 110, 17,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        pointHighlightStroke: "rgba(217, 110, 17,1)",
                         data: [@Model.AllUserDataOverTime[0]["roasty"],
                             @Model.AllUserDataOverTime[1]["roasty"],
                             @Model.AllUserDataOverTime[2]["roasty"],
                             @Model.AllUserDataOverTime[3]["roasty"],
-                            @Model.AllUserDataOverTime[4]["roasty"]]
+                            @Model.AllUserDataOverTime[4]["roasty"]
+                        ]
                     }
                 ]
             }
             var ctx = new Chart(document.getElementById("roastChart").getContext("2d")).Line(data);
         </script>
-    </div>
+    </main>
 
-    <div>
-        <h2>Average Sour Preference Over Time</h2>
-        <div>
-            <p style="color: rgb(220,220,220)">Your Averages</p>
-            <p style="color: rgb(151,187,205)">Everyone's Averages</p>
-        </div>
+    <aside class="legend">
+        <span class="data-user">Your Averages</span>
+        &emsp;
+        <span class="data-all">All User Averages</span>
+    </aside>
 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <canvas id="sourChart" width="600" height="300"></canvas>
-                </div>
-                <div class="col">
-                    @if (Model.AllSourAverage > Model.UserSourAverage)
-                    {
-                        <h2>You tend to choose less sour beers than other users</h2>
-                    }
-                    else
-                    {
-                        <h2>You tend to choose more sour beers than other users</h2>
-                    }
-                </div>
-            </div>
-        </div>
+    <aside>
+        @if (Model.AllRoastyAverage > Model.UserRoastyAverage)
+        {
+        <h4>You tend to choose less roasty beers than other users</h4>
+        }
+        else
+        {
+        <h4>You tend to choose more roasty beers than other users</h4>
+        }
+    </aside>
 
+</section>
+
+<section class="box-card">
+
+    <h2>Average Sour Preference Over Time</h2>
+
+    <main>
+        <canvas id="sourChart" width="600" height="300"></canvas>
         <script>
             var data = {
                 labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
-                datasets: [
-                    {
+                datasets: [{
                         label: "Your Average Sour Flavor",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
+                        fillColor: "rgba(87, 38, 15,0.2)",
+                        strokeColor: "rgba(87, 38, 15,1)",
+                        pointColor: "rgba(87, 38, 15,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "rgba(87, 38, 15,1)",
                         data: [@Model.CurrentUserDataOverTime[0]["sour"],
                             @Model.CurrentUserDataOverTime[1]["sour"],
                             @Model.CurrentUserDataOverTime[2]["sour"],
                             @Model.CurrentUserDataOverTime[3]["sour"],
-                            @Model.CurrentUserDataOverTime[4]["sour"]]
+                            @Model.CurrentUserDataOverTime[4]["sour"]
+                        ]
                     },
                     {
                         label: "All Users Average Sour Flavor",
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
+                        fillColor: "rgba(217, 110, 17,0.2)",
+                        strokeColor: "rgba(217, 110, 17,1)",
+                        pointColor: "rgba(217, 110, 17,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        pointHighlightStroke: "rgba(217, 110, 17,1)",
                         data: [@Model.AllUserDataOverTime[0]["sour"],
                             @Model.AllUserDataOverTime[1]["sour"],
                             @Model.AllUserDataOverTime[2]["sour"],
                             @Model.AllUserDataOverTime[3]["sour"],
-                            @Model.AllUserDataOverTime[4]["sour"]]
+                            @Model.AllUserDataOverTime[4]["sour"]
+                        ]
                     }
                 ]
             }
             var ctx = new Chart(document.getElementById("sourChart").getContext("2d")).Line(data);
         </script>
-    </div>
+    </main>
 
-    <div>
-        <h2>Average Sweet Preference Over Time</h2>
-        <div>
-            <p style="color: rgb(220,220,220)">Your Averages</p>
-            <p style="color: rgb(151,187,205)">Everyone's Averages</p>
-        </div>
+    <aside class="legend">
+        <span class="data-user">Your Averages</span>
+        &emsp;
+        <span class="data-all">All User Averages</span>
+    </aside>
 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <canvas id="sweetChart" width="600" height="300"></canvas>
-                    <script>
-                        var data = {
-                            labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
-                            datasets: [
-                                {
-                                    label: "Your Average Sweet Flavor",
-                                    fillColor: "rgba(220,220,220,0.2)",
-                                    strokeColor: "rgba(220,220,220,1)",
-                                    pointColor: "rgba(220,220,220,1)",
-                                    pointStrokeColor: "#fff",
-                                    pointHighlightFill: "#fff",
-                                    pointHighlightStroke: "rgba(220,220,220,1)",
-                                    data: [@Model.CurrentUserDataOverTime[0]["sweet"],
-                                        @Model.CurrentUserDataOverTime[1]["sweet"],
-                                        @Model.CurrentUserDataOverTime[2]["sweet"],
-                                        @Model.CurrentUserDataOverTime[3]["sweet"],
-                                        @Model.CurrentUserDataOverTime[4]["sweet"]]
-                                },
-                                {
-                                    label: "All Users Average Sweet Flavor",
-                                    fillColor: "rgba(151,187,205,0.2)",
-                                    strokeColor: "rgba(151,187,205,1)",
-                                    pointColor: "rgba(151,187,205,1)",
-                                    pointStrokeColor: "#fff",
-                                    pointHighlightFill: "#fff",
-                                    pointHighlightStroke: "rgba(151,187,205,1)",
-                                    data: [@Model.AllUserDataOverTime[0]["sweet"],
-                                        @Model.AllUserDataOverTime[1]["sweet"],
-                                        @Model.AllUserDataOverTime[2]["sweet"],
-                                        @Model.AllUserDataOverTime[3]["sweet"],
-                                        @Model.AllUserDataOverTime[4]["sweet"]]
-                                }
-                            ]
-                        }
-                        var ctx = new Chart(document.getElementById("sweetChart").getContext("2d")).Line(data);
-                    </script>
-                </div>
-                <div class="col">
-                    @if (Model.AllSweetAverage > Model.UserSweetAverage)
+    <aside>
+        @if (Model.AllSourAverage > Model.UserSourAverage)
+        {
+        <h4>You tend to choose less sour beers than other users</h4>
+        }
+        else
+        {
+        <h4>You tend to choose more sour beers than other users</h4>
+        }
+    </aside>
+
+</section>
+
+<section class="box-card">
+
+    <h2>Average Sweet Preference Over Time</h2>
+
+    <main>
+        <canvas id="sweetChart" width="600" height="300"></canvas>
+        <script>
+            var data = {
+                labels: ["@fourDaysBack", "@threeDaysBack", "@twoDaysBack", "@oneDayBack", "@today"],
+                datasets: [{
+                        label: "Your Average Sweet Flavor",
+                        fillColor: "rgba(87, 38, 15,0.2)",
+                        strokeColor: "rgba(87, 38, 15,1)",
+                        pointColor: "rgba(87, 38, 15,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(87, 38, 15,1)",
+                        data: [@Model.CurrentUserDataOverTime[0]["sweet"],
+                            @Model.CurrentUserDataOverTime[1]["sweet"],
+                            @Model.CurrentUserDataOverTime[2]["sweet"],
+                            @Model.CurrentUserDataOverTime[3]["sweet"],
+                            @Model.CurrentUserDataOverTime[4]["sweet"]
+                        ]
+                    },
                     {
-                        <h2>You tend to choose less sweet beers than other users</h2>
+                        label: "All Users Average Sweet Flavor",
+                        fillColor: "rgba(217, 110, 17,0.2)",
+                        strokeColor: "rgba(217, 110, 17,1)",
+                        pointColor: "rgba(217, 110, 17,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(217, 110, 17,1)",
+                        data: [@Model.AllUserDataOverTime[0]["sweet"],
+                            @Model.AllUserDataOverTime[1]["sweet"],
+                            @Model.AllUserDataOverTime[2]["sweet"],
+                            @Model.AllUserDataOverTime[3]["sweet"],
+                            @Model.AllUserDataOverTime[4]["sweet"]
+                        ]
                     }
-                    else
-                    {
-                        <h2>You tend to choose more sweet beers than other users</h2>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                ]
+            }
+            var ctx = new Chart(document.getElementById("sweetChart").getContext("2d")).Line(data);
+        </script>
+    </main>
+
+    <aside class="legend">
+        <span class="data-user">Your Averages</span>
+        &emsp;
+        <span class="data-all">All User Averages</span>
+    </aside>
+
+    <aside>
+        @if (Model.AllSweetAverage > Model.UserSweetAverage)
+        {
+        <h4>You tend to choose less sweet beers than other users</h4>
+        }
+        else
+        {
+        <h4>You tend to choose more sweet beers than other users</h4>
+        }
+    </aside>
+
+</section>

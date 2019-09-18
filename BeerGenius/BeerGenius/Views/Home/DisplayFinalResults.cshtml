@@ -300,12 +300,6 @@ else
     margin: 25px 0px; padding: 20px; color: #222222;">
 
     <section>
-        @if (suggestedBeer.labels.medium != null)
-        {
-            <p style="font-size: 1.25em; text-align: center;">
-                <img src="@suggestedBeer.labels.medium" alt="@suggestedBeer.nameDisplay" class="center">
-            </p>
-        }
         <p>
             @suggestedBeer.style.description
         </p>
@@ -314,7 +308,7 @@ else
             A beer that matches this style is <strong>@suggestedBeer.nameDisplay</strong>
 
         </p>
-        @if (suggestedBeer.labels.medium != null)
+        @if (suggestedBeer != null && suggestedBeer.labels != null && suggestedBeer.labels.medium != null)
         {
             <p style="font-size: 1.25em; text-align: center;">
                 <img src="@suggestedBeer.labels.medium" alt="@suggestedBeer.nameDisplay" class="center">
